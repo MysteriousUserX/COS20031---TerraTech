@@ -1,0 +1,22 @@
+.mb-1 {
+    display: flex;
+}
+.fname {
+    width: 50%;
+}
+form img{
+    width: 200px;
+}
+#SignupNature {
+    color: #1E293B;
+    border: 1px solid #0EAEF4;
+    border-radius: 0.375rem;
+    padding: 10px 10px 10px 10px;
+    cursor: pointer;
+}
+#SignupNature option {
+    cursor: pointer;
+}
+/* .form-floating {
+    background-color: red;
+} */
