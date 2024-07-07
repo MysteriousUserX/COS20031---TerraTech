@@ -91,10 +91,16 @@
 
         // Fetch 8 random properties for the related properties
         $random_properties_query = "
-        SELECT UUID, Address, Size, NumberOfRooms, NumberOfBathrooms, EstimatedValue, PropertyType 
-        FROM $sql_table_properties 
-        ORDER BY RAND() 
-        LIMIT 8
+            SELECT p.UUID, p.Address, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, p.EstimatedValue, p.PropertyType, 
+                COALESCE(i.ImageURL, 'images/property/placeholder.jpg') AS ImageURL
+            FROM $sql_table_properties AS p 
+            LEFT JOIN (
+                SELECT PropertyUUID, ImageURL 
+                FROM $sql_table_images 
+                GROUP BY PropertyUUID
+            ) AS i ON p.UUID = i.PropertyUUID 
+            ORDER BY RAND() 
+            LIMIT 8
         ";
 
         $random_properties_result = mysqli_query($conn, $random_properties_query);
