@@ -3,7 +3,7 @@ let currentPage = 1;
 let agentData = [];
 
 // Fetch the JSON data and initialize the table
-fetch('data/agentsdata.json')
+fetch('json_data/agents.json')
     .then(response => response.json())
     .then(data => {
         agentData = data;
