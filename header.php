@@ -62,7 +62,7 @@
                                 <li class="has-submenu parent-menu-item"><a href="javascript:void(0)"> List View
                                     </a><span class="submenu-arrow"></span>
                                     <ul class="submenu">
-                                        <li><a href="list2.php" class="sub-menu-item">List Listing</a></li>
+                                        <li><a href="list.php" class="sub-menu-item">List Listing</a></li>
                                     </ul>
                                 </li>
                                 <li class="has-submenu parent-menu-item"><a href="javascript:void(0)">People</a><span

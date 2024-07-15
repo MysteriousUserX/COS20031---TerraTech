@@ -50,7 +50,6 @@ function displayPage(page, data = agentData) {
                     ${agent.ContactInfo}
                 </a>
             </td>
-            <td><span>${agent.UUID}</span></td>
 
             <td class="text-end">
                 <div class="dropdown">

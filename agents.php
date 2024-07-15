@@ -150,7 +150,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Contact Info</th>
-                                    <th>UUID</th>
+                                    <th></th>
                                     <th class="text-end">Action</th>
                                 </tr>
                             </thead>
