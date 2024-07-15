@@ -89,25 +89,19 @@
             }
         }
 
-        // Fetch 8 random properties for the related properties
-        $random_properties_query = "
-            SELECT p.UUID, p.Address, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, p.EstimatedValue, p.PropertyType, 
-                COALESCE(i.ImageURL, 'images/property/placeholder.jpg') AS ImageURL
-            FROM $sql_table_properties AS p 
-            LEFT JOIN (
-                SELECT PropertyUUID, ImageURL 
-                FROM $sql_table_images 
-                GROUP BY PropertyUUID
-            ) AS i ON p.UUID = i.PropertyUUID 
-            ORDER BY RAND() 
-            LIMIT 8
+        // Fetch the first 8 properties
+        $related_properties_query = "
+        SELECT p.UUID, p.Address, p.Name, p.PropertyType, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, 
+            p.NumberOfFloors, p.YearBuilt, p.EstimatedValue, p.AdditionalInfo, p.DatePosted
+        FROM $sql_table_properties AS p
+        LIMIT 8
         ";
+        $related_properties_result = mysqli_query($conn, $related_properties_query);
 
-        $random_properties_result = mysqli_query($conn, $random_properties_query);
-        if (!$random_properties_result || mysqli_num_rows($random_properties_result) == 0) {
-            echo "<p>No properties found</p>";
-            mysqli_close($conn);
-            exit;
+        if (!$related_properties_result) {
+        echo "<p>Failed to retrieve related properties</p>";
+        mysqli_close($conn);
+        exit;
         }
 
         mysqli_close($conn);
@@ -265,11 +259,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="tiny-slide-three">
-                        <?php while ($property = mysqli_fetch_assoc($random_properties_result)): ?>
+                        <?php while ($property = mysqli_fetch_assoc($related_properties_result)): ?>
                         <div class="tiny-slide">
                             <div class="card property border-0 shadow position-relative overflow-hidden rounded-3 m-3">
                                 <div class="property-image position-relative overflow-hidden shadow">
-                                    <img src="images/property/placeholder.jpg" class="img-fluid" alt="<?php echo htmlspecialchars($property['Address']); ?>">
+                                    <img src="images/property/<?php echo htmlspecialchars($property['UUID']); ?>.jpg" class="img-fluid" alt="<?php echo htmlspecialchars($property['Address']); ?>">
                                     <ul class="list-unstyled property-icon">
                                         <li class=""><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home" class="icons"></i></a></li>
                                         <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i></a></li>
@@ -285,11 +279,11 @@
                                         </li>
                                         <li class="d-flex align-items-center me-3">
                                             <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                            <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfRooms']); ?> Beds</span>
+                                            <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfRooms']); ?> Bed</span>
                                         </li>
                                         <li class="d-flex align-items-center">
                                             <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                            <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfBathrooms']); ?> Baths</span>
+                                            <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfBathrooms']); ?> Bath</span>
                                         </li>
                                     </ul>
                                     <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
