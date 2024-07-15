@@ -149,8 +149,9 @@
                             <thead class="small text-uppercase bg-body text-muted">
                                 <tr>
                                     <th>Name</th>
-                                    <th>Contact Info</th>
                                     <th></th>
+                                    <th>Contact Info</th>
+
                                     <th class="text-end">Action</th>
                                 </tr>
                             </thead>

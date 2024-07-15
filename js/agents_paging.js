@@ -41,6 +41,7 @@ function displayPage(page, data = agentData) {
                     </div>
                 </div>
             </td>
+            <td></td>
             <td>
                 <a
                     href="/cdn-cgi/l/email-protection"

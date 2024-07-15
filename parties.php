@@ -147,8 +147,8 @@
                                     <th>Party </th>
                                     <th>Nature</th>
                                     <th>Email</th>
-                                    <th id="uuid">UUID</th>
-                                    <th>Password</th>
+                                    <th></th>
+                                    <th></th>
                                     <th class="text-end">Action</th>
                                 </tr>
                             </thead>
