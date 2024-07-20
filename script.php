@@ -85,7 +85,6 @@
                                 Documents AS d ON t.UUID = d.TransactionUUID
                             GROUP BY 
                                 t.UUID, t.Type, p.Name, p.Address, a.Name, t.StartDate, t.EndDate, d.DocumentType;");
-
     $number_of_records = $records->num_rows;
 
     // Setting number of records 
@@ -106,7 +105,6 @@
     // Query the database based on the calculated $start value,
     // and the fixed $records_per_page value.
     if (isset($_POST['list_all_transactions'])) {
-
         $result = $mysqli->query("SELECT 
                                     t.Type AS TransactionType,
                                     p.Name AS PropertyName,
@@ -148,31 +146,5 @@
     }
     else {
         $result = $mysqli->query("$premadequery LIMIT $start_from, $records_per_page");
-=======
-        $result = $mysqli->query("SELECT * FROM transaction_summary LIMIT $start_from, $records_per_page");
-    }
-    else if (isset($_POST['search_transaction_type'])) {
-        $transaction_type = sanitize_input($_POST['transaction_type']);
-        $result = $mysqli->query("SELECT * FROM transaction_summary WHERE TransactionType LIKE '%$transaction_type%' LIMIT $start_from, $records_per_page;");
-    }
-    else if (isset($_POST['search_property_name'])) {
-        $property_name = sanitize_input($_POST['property_name']);
-        $result = $mysqli->query("SELECT * FROM transaction_summary WHERE PropertyName LIKE '%$property_name%' LIMIT $start_from, $records_per_page;");
-    }
-    else if (isset($_POST['search_property_address'])) {
-        $property_address = sanitize_input($_POST['property_address']);
-        $result = $mysqli->query("SELECT * FROM transaction_summary WHERE PropertyAddress LIKE '%$property_address%' LIMIT $start_from, $records_per_page;");
-    }
-    else if (isset($_POST['search_agent'])) {
-        $re_agent = sanitize_input($_POST['re_agent']);
-        $result = $mysqli->query("SELECT * FROM transaction_summary WHERE AgentName LIKE '%$re_agent%' LIMIT $start_from, $records_per_page;");
-    }
-    else if (isset($_POST['search_document'])) {
-        $document_type = sanitize_input($_POST['document_type']);
-        $result = $mysqli->query("SELECT * FROM transaction_summary WHERE DocumentType LIKE '%$document_type%' LIMIT $start_from, $records_per_page;");
-    }
-    else {
-        $result = $mysqli->query("SELECT * FROM transaction_summary LIMIT $start_from, $records_per_page");
-
     }
 ?>
