@@ -80,6 +80,7 @@ else {
             echo "New transaction created successfully. The transaction ID is: $transactionID.";
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+
         }
     }
 }

@@ -67,7 +67,6 @@
                 </li>
             </ul>
         </form>        
-
         <div class="container">
             <div class="row">
                 <div class="col-12 mb-3 mb-lg-5" style="padding: 10px; border-radius: 2px; box-shadow: 0 20px 27px 0 lightgrey; background: #EEE;">
@@ -165,6 +164,7 @@
                             <a href="?page-number=<?php echo $number_of_pages ?>">Last</a>
                         </div>
                     </div>
+                    <div class="transaction-pagination"></div>
                 </div>
             </div>
         </div>
@@ -180,6 +180,7 @@
                 <th>Agent</th>
                 <th>Document Type</th>
             </tr> -->
+            </tr>
             <?php while($row = $result->fetch_assoc()) { ?>
             <tr>
                 <td><?php echo $row['TransactionID']; ?></td>
@@ -193,6 +194,7 @@
             </tr>
             <?php } ?>
         </table>
+
     </main>
     <?php include('footer.php');?>
 </body>
