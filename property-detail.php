@@ -29,7 +29,9 @@
 
     <?php
         require_once("settings.php");
-
+        function formatPrice($price) {
+            return number_format($price, 2); // Function to format the price
+        }
         $uuid = isset($_GET['uuid']) ? $_GET['uuid'] : '';
 
         if (!$uuid) {
@@ -47,7 +49,7 @@
         $sql_table_images = "PropertyImages";
         $sql_table_features = "PropertyFeatures";
         $sql_table_amenities = "PropertyAmenities";
-
+        // Retrieve properties data
         $query = "
             SELECT p.Address, p.Name, p.PropertyType, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, 
                 p.NumberOfFloors, p.YearBuilt, p.EstimatedValue, p.AdditionalInfo, p.DatePosted
@@ -92,8 +94,12 @@
         // Fetch the first 8 properties
         $related_properties_query = "
         SELECT p.UUID, p.Address, p.Name, p.PropertyType, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, 
-            p.NumberOfFloors, p.YearBuilt, p.EstimatedValue, p.AdditionalInfo, p.DatePosted
+            p.NumberOfFloors, p.YearBuilt, p.EstimatedValue, p.AdditionalInfo, p.DatePosted,
+            i.ImageURL
         FROM $sql_table_properties AS p
+        LEFT JOIN $sql_table_images AS i ON p.UUID = i.PropertyUUID
+        WHERE p.UUID != '$uuid'
+        GROUP BY p.UUID
         LIMIT 8
         ";
         $related_properties_result = mysqli_query($conn, $related_properties_query);
@@ -130,7 +136,7 @@
                     <div class="row g-2">
                         <?php
                         if ($image_result && mysqli_num_rows($image_result) > 0) {
-                            mysqli_data_seek($image_result, 1); // Move the pointer to the second image
+                            mysqli_data_seek($image_result, 1);
                             while ($image = mysqli_fetch_assoc($image_result)) {
                                 echo '<div class="col-6">';
                                 echo '<a href="' . htmlspecialchars($image['ImageURL']) . '" class="lightbox" title="">';
@@ -216,7 +222,7 @@
                         <h5 class="mb-3">Price:</h5>
 
                         <div class="d-flex align-items-center justify-content-between">
-                            <h5 class="mb-0">$ <?php echo htmlspecialchars($propertydata['EstimatedValue']); ?></h5>
+                            <h5 class="mb-0">$ <?php echo formatPrice($propertydata['EstimatedValue']); ?></h5>
                             <span class="badge bg-primary">For Sale</span>
                         </div>
 
@@ -238,8 +244,9 @@
                         </div>
 
                         <div class="d-flex mt-3">
-                            <a href="javascript:void(0)" class="btn btn-primary w-100 me-2">Book Now</a>
-                            <a href="javascript:void(0)" class="btn btn-primary w-100">Offer now</a>
+                            <a href="javascript:void(0)" class="btn btn-primary w-100 me-2">Buy</a>
+                            <a href="javascript:void(0)" class="btn btn-primary w-100 me-2">Rent</a>
+                            <a href="javascript:void(0)" class="btn btn-primary w-100">Lease</a>
                         </div>
                     </div>
                 </div><!--end col-->
@@ -261,9 +268,9 @@
                     <div class="tiny-slide-three">
                         <?php while ($property = mysqli_fetch_assoc($related_properties_result)): ?>
                         <div class="tiny-slide">
-                            <div class="card property border-0 shadow position-relative overflow-hidden rounded-3 m-3">
+                            <div class="card property border-0 shadow position-xrelative overflow-hidden rounded-3 m-3">
                                 <div class="property-image position-relative overflow-hidden shadow">
-                                    <img src="images/property/<?php echo htmlspecialchars($property['UUID']); ?>.jpg" class="img-fluid" alt="<?php echo htmlspecialchars($property['Address']); ?>">
+                                    <img src="<?php echo htmlspecialchars($property['ImageURL']); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($property['Address']); ?>">
                                     <ul class="list-unstyled property-icon">
                                         <li class=""><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home" class="icons"></i></a></li>
                                         <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i></a></li>
@@ -289,7 +296,7 @@
                                     <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
                                         <li class="list-inline-item mb-0">
                                             <span class="text-muted">Price</span>
-                                            <p class="fw-medium mb-0">$<?php echo htmlspecialchars($property['EstimatedValue']); ?></p>
+                                            <p class="fw-medium mb-0">$ <?php echo formatPrice($property['EstimatedValue']); ?></p>
                                         </li>
                                         <li class="list-inline-item mb-0 text-muted">
                                             <span class="text-muted">Property Type</span>
@@ -320,7 +327,7 @@
     <!-- Tiny slider -->
     <script src="js/tiny-slider.js"></script>
     <!-- Tobii -->
-    <script src="js/tobii.min.js"></script>
+    <script src="js/tobii.min.js"></script> 
     <!-- Choice js -->
     <script src="js/choices.min.js"></script>
     <!-- Icons -->
