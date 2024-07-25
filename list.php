@@ -55,30 +55,34 @@
                 <div class="col-lg-10">
                     <div class="features-absolute">
                         <div class="card border-0 bg-white shadow mt-5">
-                            <form class="card-body text-start">
+                            <!-- Search form -->
+                            <form class="card-body text-start" method="GET" action="list.php">
                                 <div class="registration-form text-dark text-start">
                                     <div class="row g-lg-0">
                                         <div class="col-lg-3 col-md-6 col-12">
                                             <div class="mb-3 mb-sm-0">
+                                                <!-- Search name -->
                                                 <label class="form-label d-none fs-6">Search :</label>
                                                 <div class="filter-search-form position-relative filter-border">
                                                     <i data-feather="search" class="fea icon-ex-md icons"></i>
-                                                    <input name="name" type="text" id="job-keyword" class="form-control filter-input-box bg-light border-0" placeholder="Search your keywords">
+                                                    <input name="job-keyword" type="text" id="job-keyword" class="form-control filter-input-box bg-light border-0" placeholder="Search your keywords">
                                                 </div>
                                             </div>
                                         </div><!--end col-->
-                                        
+
                                         <div class="col-lg-3 col-md-6 col-12">
                                             <div class="mb-3 mb-sm-0">
+                                                <!-- Search property cartegory -->
                                                 <label class="form-label d-none fs-6">Select Categories:</label>
                                                 <div class="filter-search-form position-relative filter-border">
                                                     <i data-feather="home" class="fea icon-ex-md icons"></i>
-                                                    <select class="form-select" id="choices-catagory-buy">
-                                                        <option>Residential</option>
-                                                        <option>Land</option>
-                                                        <option>Commercial</option>
-                                                        <option>Industrial</option>
-                                                        <option>Industrial</option>
+                                                    <select name="category" class="form-select" id="choices-catagory-buy">
+                                                        <option value="">All Categories</option>
+                                                        <option value="Residential">Residential</option>
+                                                        <option value="Land">Land</option>
+                                                        <option value="Commercial">Commercial</option>
+                                                        <option value="Industrial">Industrial</option>
+                                                        <option value="Other">Other</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -86,19 +90,11 @@
 
                                         <div class="col-lg-3 col-md-6 col-12">
                                             <div class="mb-3 mb-sm-0">
+                                                <!-- Search price -->
                                                 <label class="form-label d-none fs-6">Price :</label>
                                                 <div class="filter-search-form position-relative">
                                                     <i data-feather="dollar-sign" class="fea icon-ex-md icons"></i>
-                                                    <select class="form-select" id="choices-min-price-buy">
-                                                        <option>Price</option>
-                                                        <option>500</option>
-                                                        <option>1000</option>
-                                                        <option>2000</option>
-                                                        <option>3000</option>
-                                                        <option>4000</option>
-                                                        <option>5000</option>
-                                                        <option>6000</option>
-                                                    </select>
+                                                    <input name="price-search" type="text" id="price-search" class="form-control filter-input-box bg-light border-0" placeholder="Highest price">
                                                 </div>
                                             </div>
                                         </div><!--end col-->
@@ -109,6 +105,7 @@
                                     </div><!--end row-->
                                 </div>
                             </form><!--end form-->
+
                         </div>
                     </div>
                 </div><!--end col-->
@@ -116,117 +113,146 @@
 
             <div class="row">
             <?php
-            define('RECORDS_PER_PAGE', 40);
-            require_once("settings.php");    
-            $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
-            if (!$conn) {
-                die("<p>Database connection failure: " . mysqli_connect_error() . "</p>");
-            }
+                define('RECORDS_PER_PAGE', 40); // Define the number of records to display per page
+                require_once("settings.php"); 
 
-            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-            if ($page < 1) $page = 1;
-            $offset = ($page - 1) * RECORDS_PER_PAGE;
+                function formatPrice($price) {
+                    return number_format($price, 2); // Function to format the price
+                }   
 
-            $sql_table_properties = "Properties";
-            $total_query = "SELECT COUNT(*) AS total FROM $sql_table_properties";
-            $total_result = mysqli_query($conn, $total_query);
-            if (!$total_result) {
-                die("<p>Error retrieving total records: " . mysqli_error($conn) . "</p>");
-            }
-            $total_row = mysqli_fetch_assoc($total_result);
-            $total_records = $total_row['total'];
-            $total_pages = ceil($total_records / RECORDS_PER_PAGE);
-
-            $query = "
-                SELECT p.UUID, p.Address, p.Name, p.PropertyType, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, 
-                    p.NumberOfFloors, p.YearBuilt, p.EstimatedValue, i.ImageURL, i.Description
-                FROM $sql_table_properties AS p
-                LEFT JOIN (
-                    SELECT PropertyUUID, ImageURL, Description
-                    FROM PropertyImages
-                    GROUP BY PropertyUUID
-                ) AS i ON p.UUID = i.PropertyUUID
-                LIMIT " . RECORDS_PER_PAGE . " OFFSET " . $offset;
-            $result = mysqli_query($conn, $query);
-            if (!$result) {
-                die("<p>Error executing query: " . mysqli_error($conn) . "</p>");
-            }
-
-            while ($propertydata = mysqli_fetch_assoc($result)) {
-                echo '<div class="col-lg-6 col-12">';
-                echo '<div class="card property property-list border-0 shadow position-relative overflow-hidden rounded-3">';
-                echo '<div class="d-md-flex">';
-                echo '<div class="property-image position-relative overflow-hidden shadow flex-md-shrink-0 rounded-3 m-2">';
-                if ($propertydata['ImageURL']) {
-                    echo '<img src="' . htmlspecialchars($propertydata['ImageURL']) . '" class="img-fluid h-100 w-100" alt="' . htmlspecialchars($propertydata['Description']) . '">';
-                } else {
-                    echo '<img src="images/property/placeholder.jpg" class="img-fluid h-100 w-100" alt="Placeholder Image">';
+                $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+                if (!$conn) {
+                    die("<p>Database connection failure: " . mysqli_connect_error() . "</p>");
                 }
-                echo '<ul class="list-unstyled property-icon">';
-                echo '<li><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home" class="icons"></i></a></li>';
-                echo '<li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i></a></li>';
-                echo '<li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera" class="icons"></i></a></li>';
-                echo '</ul>';
-                echo '</div>';
-                echo '<div class="card-body content p-3">';
-                echo '<a href="property-detail.php?uuid=' . htmlspecialchars($propertydata['UUID']) . '" class="title fs-5 text-dark fw-medium">' . htmlspecialchars($propertydata['Address']) . '</a>';
 
-                echo '<ul class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">';
-                echo '<li class="d-flex align-items-center me-3">';
-                echo '<i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>';
-                echo '<span class="text-muted">' . htmlspecialchars($propertydata['Size']) . '</span>';
-                echo '</li>';
+                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Determine the current page number
+                if ($page < 1) $page = 1;
+                $offset = ($page - 1) * RECORDS_PER_PAGE;
 
-                echo '<li class="d-flex align-items-center me-3">';
-                echo '<i class="mdi mdi-bed fs-5 me-2 text-primary"></i>';
-                echo '<span class="text-muted">' . htmlspecialchars($propertydata['NumberOfRooms']) . ' Beds</span>';
-                echo '</li>';
+                $sql_table_properties = "Properties";
+                $total_query = "SELECT COUNT(*) AS total FROM $sql_table_properties";
+                $total_result = mysqli_query($conn, $total_query);
+                if (!$total_result) {
+                    die("<p>Error retrieving total records: " . mysqli_error($conn) . "</p>");
+                }
+                $total_row = mysqli_fetch_assoc($total_result);
+                $total_records = $total_row['total'];
+                $total_pages = ceil($total_records / RECORDS_PER_PAGE);
 
-                echo '<li class="d-flex align-items-center">';
-                echo '<i class="mdi mdi-shower fs-5 me-2 text-primary"></i>';
-                echo '<span class="text-muted">' . htmlspecialchars($propertydata['NumberOfBathrooms']) . ' Baths</span>';
-                echo '</li>';
-                echo '</ul>';
+                $search_keyword = isset($_GET['job-keyword']) ? mysqli_real_escape_string($conn, $_GET['job-keyword']) : '';
+                $category = isset($_GET['category']) ? mysqli_real_escape_string($conn, $_GET['category']) : '';
+                $price_search = isset($_GET['price-search']) ? (int)$_GET['price-search'] : 0;
 
-                echo '<ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">';
-                echo '<li class="list-inline-item mb-0">';
-                echo '<span class="text-muted">Price</span>';
-                echo '<p class="fw-medium mb-0">$' . htmlspecialchars($propertydata['EstimatedValue']) . '</p>';
-                echo '</li>';
-                echo '<li class="list-inline-item mb-0 text-muted">';
-                echo '<span class="text-muted">Property Type</span>';
-                echo '<ul class="fw-medium text-warning list-unstyled mb-0">';
+                // Retrieve properties data
+                $query = "
+                    SELECT p.UUID, p.Address, p.Name, p.PropertyType, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, 
+                        p.NumberOfFloors, p.YearBuilt, p.EstimatedValue, i.ImageURL, i.Description
+                    FROM $sql_table_properties AS p
+                    LEFT JOIN (
+                        SELECT PropertyUUID, ImageURL, Description
+                        FROM PropertyImages
+                        GROUP BY PropertyUUID
+                    ) AS i ON p.UUID = i.PropertyUUID
+                    WHERE 1=1";
 
-                echo '<li class="list-inline-item mb-0 text-dark">' . htmlspecialchars($propertydata['PropertyType']) . '</li>';
-                echo '</ul>';
-                echo '</li>';
-                echo '</ul>';
+                // Search functions
+                if ($search_keyword) {
+                    $query .= " AND (p.Address LIKE '%$search_keyword%' OR p.Name LIKE '%$search_keyword%')";
+                }
+                if ($category) {
+                    $query .= " AND p.PropertyType = '$category'";
+                }
+                if ($price_search > 0) {
+                    $query .= " AND p.EstimatedValue <= $price_search";
+                }
+                
+                // Limit the number of records returned and set the offset for pagination
+                $query .= " LIMIT " . RECORDS_PER_PAGE . " OFFSET " . $offset;
+                $result = mysqli_query($conn, $query);
+                if (!$result) {
+                    die("<p>Error executing query: " . mysqli_error($conn) . "</p>");
+                }
 
-                echo '</div>'; // card-body
-                echo '</div>'; // d-md-flex
-                echo '</div>'; // card
-                echo '</div>'; // col-lg-6
-            }
-            mysqli_free_result($result);
-            mysqli_close($conn);
-            ?>
+                while ($propertydata = mysqli_fetch_assoc($result)) {
+                    echo '<div class="col-lg-6 col-12">';
+                    echo '<div class="card property property-list border-0 shadow position-relative overflow-hidden rounded-3">';
+                    echo '<div class="d-md-flex">';
+                    echo '<div class="property-image position-relative overflow-hidden shadow flex-md-shrink-0 rounded-3 m-2">';
+                    if ($propertydata['ImageURL']) {
+                        echo '<img src="' . htmlspecialchars($propertydata['ImageURL']) . '" class="img-fluid h-100 w-100" alt="' . htmlspecialchars($propertydata['Description']) . '">';
+                    } else {
+                        echo '<img src="images/property/placeholder.jpg" class="img-fluid h-100 w-100" alt="Placeholder Image">';
+                    }
+                    echo '<ul class="list-unstyled property-icon">';
+                    echo '<li><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home" class="icons"></i></a></li>';
+                    echo '<li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i></a></li>';
+                    echo '<li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera" class="icons"></i></a></li>';
+                    echo '</ul>';
+                    echo '</div>';
+                    echo '<div class="card-body content p-3">';
+                    echo '<a href="property-detail.php?uuid=' . htmlspecialchars($propertydata['UUID']) . '" class="title fs-5 text-dark fw-medium">' . htmlspecialchars($propertydata['Address']) . '</a>';
+
+                    echo '<ul class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">';
+                    echo '<li class="d-flex align-items-center me-3">';
+                    echo '<i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>';
+                    echo '<span class="text-muted">' . htmlspecialchars($propertydata['Size']) . '</span>';
+                    echo '</li>';
+
+                    echo '<li class="d-flex align-items-center me-3">';
+                    echo '<i class="mdi mdi-bed fs-5 me-2 text-primary"></i>';
+                    echo '<span class="text-muted">' . htmlspecialchars($propertydata['NumberOfRooms']) . ' Bed</span>';
+                    echo '</li>';
+
+                    echo '<li class="d-flex align-items-center">';
+                    echo '<i class="mdi mdi-shower fs-5 me-2 text-primary"></i>';
+                    echo '<span class="text-muted">' . htmlspecialchars($propertydata['NumberOfBathrooms']) . ' Bath</span>';
+                    echo '</li>';
+                    echo '</ul>';
+
+                    echo '<ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">';
+                    echo '<li class="list-inline-item mb-0">';
+                    echo '<span class="text-muted">Price</span>';
+                    echo '<p class="fw-medium mb-0">$ ' . formatPrice($propertydata['EstimatedValue']) . '</p>';
+                    echo '</li>';
+                    echo '<li class="list-inline-item mb-0 text-muted">';
+                    echo '<span class="text-muted">Property Type</span>';
+                    echo '<ul class="fw-medium text-warning list-unstyled mb-0">';
+
+                    echo '<li class="list-inline-item mb-0 text-dark">' . htmlspecialchars($propertydata['PropertyType']) . '</li>';
+                    echo '</ul>';
+                    echo '</li>';
+                    echo '</ul>';
+
+                    echo '</div>'; // card-body
+                    echo '</div>'; // d-md-flex
+                    echo '</div>'; // card
+                    echo '</div>'; // col-lg-6
+                }
+                mysqli_free_result($result);
+                mysqli_close($conn);
+                ?>
+
             </div><!--end row-->
 
+            <!-- Pagination -->
             <div class="row">
                 <div class="col-12 mt-4 pt-2">
                     <ul class="pagination justify-content-center mb-0">
                         <?php
+                        $query_string = http_build_query(array_merge($_GET, ['page' => $page - 1]));
                         if ($page > 1) {
-                            echo '<li class="page-item"><a class="page-link" href="?page=' . ($page - 1) . '"><i class="mdi mdi-chevron-left fs-6"></i></a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="?' . $query_string . '"><i class="mdi mdi-chevron-left fs-6"></i></a></li>';
                         }
                         echo '<li class="page-item active"><a class="page-link" href="#">' . $page . '</a></li>';
+                        $query_string = http_build_query(array_merge($_GET, ['page' => $page + 1]));
                         if ($page < $total_pages) {
-                            echo '<li class="page-item"><a class="page-link" href="?page=' . ($page + 1) . '"><i class="mdi mdi-chevron-right fs-6"></i></a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="?' . $query_string . '"><i class="mdi mdi-chevron-right fs-6"></i></a></li>';
                         }
                         ?>
                     </ul>
                 </div><!--end col-->
             </div><!--end row-->
+
         </div><!--end container-->
     </section><!--end section-->
     <!-- End -->
