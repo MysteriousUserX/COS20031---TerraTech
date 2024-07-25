@@ -21,12 +21,45 @@
     <!-- Custom  Css -->
     <link href="css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
     <link rel="stylesheet" href="css/agent.css" />
+    <link rel="stylesheet" href="css/modal.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 </head>
 
 <body>
     <?php include('header.php'); ?>
     <!-- Navbar STart -->
+    <div class="modal fade" id="addAgentModal" tabindex="-1" aria-labelledby="addAgentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAgentModalLabel">Add Agent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    <form id="addAgentForm" method="POST" action="add_agent.php">
+                        <div class="mb-3">
+                            <label for="agentName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="agentName" name="name"
+                                placeholder="Enter your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agentContactInfo" class="form-label">Contact Info</label>
+                            <input type="email" class="form-control" id="agentContactInfo" name="contact_info"
+                                placeholder="example@gmail.com" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="saveAgentBtn">Save</button>
+                </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
 
     <section class="bg-half-170 d-table w-100" style="background: url('images/bg/03.jpg');">
         <div class="bg-overlay bg-gradient-overlay-2"></div>
@@ -203,6 +236,7 @@
     <script src="js/app.js"></script>
 
     <script src="js/agents_paging.js"></script>
+
 
 
 

@@ -1,0 +1,11 @@
+
+.btn-close {
+    color: #222222; /* Darker color for the close button */
+    background-color: transparent; /* Ensure the background is transparent */
+    border:rgb(29, 29, 29)e; /* Remove any default border */
+}
+
+#addAgentForm input{
+    border: 0.4px solid rgb(135, 128, 128);
+    
+}
