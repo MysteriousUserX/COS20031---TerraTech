@@ -1,72 +1,19 @@
 <?php 
-    // connecting to the database.
-    // $mysqli = new mysqli('localhost:5222', 'root', '', 'xandb');
-    $mysqli = new mysqli('feenix-mariadb.swin.edu.au', 's104777544', '041205', 's104777544_db');
+//This will be used to implement permission so that only admins can see this.
+// if ((isset($_SESSION['Nature'])) && (($_SESSION['Nature'] == 'Individual') || ($_SESSION['Nature'] == 'Organization') || ($_SESSION['Nature'] == 'Government')))
+// {
 
-    if ($mysqli->connect_error) {
-        // echo mysqli_error($mysqli);
-        die("Connection failed: " . $conn->connect_error);
-    }
-    else{
-        echo "Connected successfully";
-        $mysqli->set_charset("utf8mb4");	
-    }
-    
-    function sanitize_input($data) {
-        if (is_array($data)) {
-            $sanitized_input = array();
-            foreach ($data as $value) {
-                $sanitized_input[] = trim($value);
-            }
-            return $sanitized_input;
-        }
-        else {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-        }
-        return $data;
-    }
+?>
 
-    //                         "SELECT 
-    //                             t.Type AS TransactionType,
-    //                             p.Name AS PropertyName,
-    //                             p.Address AS PropertyAddress,
-    //                             a.Name AS AgentName,
-    //                             t.StartDate AS StartDate,
-    //                             t.EndDate AS EndDate,
-    //                             d.DocumentType AS DocumentType
-    //                         FROM 
-    //                             Transactions AS t
-    //                         JOIN 
-    //                             Properties AS p ON t.PropertyUUID = p.UUID
-    //                         JOIN 
-    //                             Agents AS a ON t.AgentUUID = a.UUID
-    //                         JOIN 
-    //                             Documents AS d ON t.UUID = d.TransactionUUID
-    //                         GROUP BY 
-    //                             t.UUID, t.Type, p.Name, p.Address, a.Name, t.StartDate, t.EndDate, d.DocumentType;"
 
-    $premadequery = "SELECT 
-                                t.Type AS TransactionType,
-                                p.Name AS PropertyName,
-                                p.Address AS PropertyAddress,
-                                a.Name AS AgentName,
-                                t.StartDate AS StartDate,
-                                t.EndDate AS EndDate,
-                                d.DocumentType AS DocumentType
-                            FROM 
-                                Transactions AS t
-                            JOIN 
-                                Properties AS p ON t.PropertyUUID = p.UUID
-                            JOIN 
-                                Agents AS a ON t.AgentUUID = a.UUID
-                            JOIN 
-                                Documents AS d ON t.UUID = d.TransactionUUID
-                            GROUP BY 
-                                t.UUID, t.Type, p.Name, p.Address, a.Name, t.StartDate, t.EndDate, d.DocumentType;";
+<?php 
+// connecting to the database.
+$mysqli = new mysqli('feenix-mariadb.swin.edu.au', 's104777544', '041205', 's104777544_db');
 
-    // get the total nr of rows.
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} else {
+    // Get the total number of rows.
     $records = $mysqli->query("SELECT 
                                 t.Type AS TransactionType,
                                 p.Name AS PropertyName,
@@ -102,49 +49,93 @@
         $start_from = $page * $records_per_page;
     }
 
-    // Query the database based on the calculated $start value,
-    // and the fixed $records_per_page value.
-    if (isset($_POST['list_all_transactions'])) {
-        $result = $mysqli->query("SELECT 
-                                    t.Type AS TransactionType,
-                                    p.Name AS PropertyName,
-                                    p.Address AS PropertyAddress,
-                                    a.Name AS AgentName,
-                                    t.StartDate AS StartDate,
-                                    t.EndDate AS EndDate,
-                                    d.DocumentType AS DocumentType
-                                FROM 
-                                    Transactions AS t
-                                JOIN 
-                                    Properties AS p ON t.PropertyUUID = p.UUID
-                                JOIN 
-                                    Agents AS a ON t.AgentUUID = a.UUID
-                                JOIN 
-                                    Documents AS d ON t.UUID = d.TransactionUUID
-                                GROUP BY 
-                                    t.UUID, t.Type, p.Name, p.Address, a.Name, t.StartDate, t.EndDate, d.DocumentType LIMIT $start_from, $records_per_page;");
+    // Initialize the base query
+    $base_query = "SELECT 
+                    t.Type AS TransactionType,
+                    p.Name AS PropertyName,
+                    p.Address AS PropertyAddress,
+                    a.Name AS AgentName,
+                    t.StartDate AS StartDate,
+                    t.EndDate AS EndDate,
+                    d.DocumentType AS DocumentType
+                FROM 
+                    Transactions AS t
+                JOIN 
+                    Properties AS p ON t.PropertyUUID = p.UUID
+                JOIN 
+                    Agents AS a ON t.AgentUUID = a.UUID
+                JOIN 
+                    Documents AS d ON t.UUID = d.TransactionUUID";
+
+    $where_clauses = [];
+    $query_params = [];
+
+    // Add conditions based on the form inputs
+    if (isset($_POST['transaction-search-bar'])) {
+        if (isset($_POST['TransactionKeyword']) && !empty($_POST['TransactionKeyword'])) {
+            $property_name = sanitize_input($_POST['TransactionKeyword']);
+            $where_clauses[] = "p.Name LIKE ?";
+            $query_params[] = "%$property_name%";
+        }
+
+        if (isset($_POST['TransactionType']) && $_POST['TransactionType'] != 'Type') {
+            $transaction_type = sanitize_input($_POST['TransactionType']);
+            $where_clauses[] = "t.Type = ?";
+            $query_params[] = $transaction_type;
+        }
+
+        if (isset($_POST['DocumentType']) && $_POST['DocumentType'] != 'Document') {
+            $document_type = sanitize_input($_POST['DocumentType']);
+            $where_clauses[] = "d.DocumentType = ?";
+            $query_params[] = $document_type;
+        }
     }
-    else if (isset($_POST['search_transaction_type'])) {
-        $transaction_type = sanitize_input($_POST['transaction_type']);
-        $result = $mysqli->query("$premadequery WHERE TransactionType LIKE '%$transaction_type%' LIMIT $start_from, $records_per_page;");
+
+    if (!empty($where_clauses)) {
+        $base_query .= " WHERE " . implode(' AND ', $where_clauses);
     }
-    else if (isset($_POST['search_property_name'])) {
-        $property_name = sanitize_input($_POST['property_name']);
-        $result = $mysqli->query("$premadequery WHERE PropertyName LIKE '%$property_name%' LIMIT $start_from, $records_per_page;");
+
+    $base_query .= " GROUP BY t.UUID, t.Type, p.Name, p.Address, a.Name, t.StartDate, t.EndDate, d.DocumentType LIMIT ?, ?";
+
+    // Prepare the statement
+    $stmt = $mysqli->prepare($base_query);
+
+    // Dynamically bind the parameters
+    $types = str_repeat('s', count($query_params)) . 'ii';
+    $query_params[] = $start_from;
+    $query_params[] = $records_per_page;
+    $stmt->bind_param($types, ...$query_params);
+
+    // Execute the query
+    $stmt->execute();
+    $result = $stmt->get_result();
+}
+?>
+
+<!-- HTML and form structure remain unchanged -->
+
+<?php
+function sanitize_input($data) {
+    if (is_array($data)) {
+        $sanitized_input = array();
+        foreach ($data as $value) {
+            $sanitized_input[] = trim($value);
+        }
+        return $sanitized_input;
+    } else {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
     }
-    else if (isset($_POST['search_property_address'])) {
-        $property_address = sanitize_input($_POST['property_address']);
-        $result = $mysqli->query("$premadequery WHERE PropertyAddress LIKE '%$property_address%' LIMIT $start_from, $records_per_page;");
-    }
-    else if (isset($_POST['search_agent'])) {
-        $re_agent = sanitize_input($_POST['re_agent']);
-        $result = $mysqli->query("$premadequery WHERE AgentName LIKE '%$re_agent%' LIMIT $start_from, $records_per_page;");
-    }
-    else if (isset($_POST['search_document'])) {
-        $document_type = sanitize_input($_POST['document_type']);
-        $result = $mysqli->query("$premadequery WHERE DocumentType LIKE '%$document_type%' LIMIT $start_from, $records_per_page;");
-    }
-    else {
-        $result = $mysqli->query("$premadequery LIMIT $start_from, $records_per_page");
-    }
+    return $data;
+}
+?>
+
+<?php 
+//This will be used to implement permission so that only admins can see this.
+// }
+// else {
+//     header("Location: index.php");
+//     exit();
+// }
 ?>
