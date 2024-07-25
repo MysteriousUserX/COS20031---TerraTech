@@ -37,14 +37,13 @@ function displayPage(page, data = partyData) {
                     </div>
                 </td>
                 <td>
-                 <a href = "#" >${party.Nature}</a
-                    >
+                 <a href = "#" >${party.Nature}</a>
                 </td>
                 <td>
                     <span class="d-inline-block align-middle">${party.Email}</span>
-                </td>
-                <td><span>${party.UUID}</span></td>
-                <td>${maskedPassword    }</td>
+                </td>       
+                 <td> </td>  
+                  <td> </td>  
                 <td class="text-end">
                     <div class="drodown">
                     <a

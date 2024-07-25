@@ -41,16 +41,16 @@ function displayPage(page, data = agentData) {
                     </div>
                 </div>
             </td>
+            <td></td>
             <td>
                 <a
-                    href="/cdn-cgi/l/email-protection"
+                    href="/cdn-cgi/l/email-protection"      
                     class="__cf_email__"
                     data-cfemail="a5c8d3cac2c0d6e5c0c8c4ccc98bc6cac8"
                 >
                     ${agent.ContactInfo}
                 </a>
             </td>
-            <td><span>${agent.UUID}</span></td>
 
             <td class="text-end">
                 <div class="dropdown">
@@ -168,3 +168,5 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
     setupPagination(filteredData.length);
     displayPage(1, filteredData);
 });
+
+
