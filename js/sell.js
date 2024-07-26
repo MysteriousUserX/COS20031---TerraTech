@@ -2,6 +2,7 @@ try {
     function validatePropertyForm() {
         var address = document.forms["propertyForm"]["address"].value;
         var name = document.forms["propertyForm"]["name"].value;
+        var propertyType = document.forms["propertyForm"]["property_type"].value;
         var propertySize = parseFloat(document.forms["propertyForm"]["property_size"].value);
         var bedrooms = parseInt(document.forms["propertyForm"]["bedrooms"].value);
         var bathrooms = parseInt(document.forms["propertyForm"]["bathrooms"].value);
@@ -11,8 +12,10 @@ try {
 
         var additionalInfo = document.forms["propertyForm"]["additional_info"].value;
         var amenity = document.forms["propertyForm"]["amenity"].value;
+        var amenitydesc = document.forms["propertyForm"]["amenity_description"].value;
         var feature = document.forms["propertyForm"]["feature"].value;
-        
+        var featuredesc = document.forms["propertyForm"]["feature_description"].value;
+
         var propertyImage1 = document.forms["propertyForm"]["property_image_1"].files[0];
         var propertyImage2 = document.forms["propertyForm"]["property_image_2"].files[0];
         var propertyImage3 = document.forms["propertyForm"]["property_image_3"].files[0];
@@ -81,16 +84,39 @@ try {
             return false;
         }
 
+        var formData = new FormData();
+        formData.append('address', address);
+        formData.append('name', name);
+        formData.append('property_type', propertyType);
+        formData.append('property_size', propertySize);
+        formData.append('bedrooms', bedrooms);
+        formData.append('bathrooms', bathrooms);
+        formData.append('floors', floors);
+        formData.append('year_built', yearBuilt);
+        formData.append('estimated_value', estimatedValue);
+        formData.append('additional_info', additionalInfo);
+        
+        formData.append('amenity', amenity);
+        formData.append('amenity_description', amenitydesc);
+        formData.append('feature', feature);
+        formData.append('feature_description', featuredesc);
+
+        formData.append('property_image_1', propertyImage1);
+        formData.append('property_image_2', propertyImage2);
+        formData.append('property_image_3', propertyImage3);
+        formData.append('property_image_4', propertyImage4);
+        formData.append('property_image_5', propertyImage5);
+
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("simple-msg").innerHTML = this.responseText;
                 document.forms["propertyForm"].reset();
+                alert("Property added successfully!");
             }
         };
-        //xhttp.open("POST", "php/property.php", true);
-        //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //xhttp.send("address=" + address + "&name=" + name + "&property_size=" + propertySize + "&bedrooms=" + bedrooms + "&bathrooms=" + bathrooms + "&floors=" + floors + "&year_built=" + yearBuilt + "&estimated_value=" + estimatedValue + "&additional_info=" + additionalInfo + "&amenity=" + amenity + "&feature=" + feature);
+        xhttp.open("POST", "add_property.php", true);
+        xhttp.send(formData);
         return false;
     }
 
