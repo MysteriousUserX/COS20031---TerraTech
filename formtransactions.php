@@ -5,7 +5,8 @@
 ?>
 <?php
 require_once("settings.php");
-$mysqli = new mysqli('feenix-mariadb.swin.edu.au', 's104777544', '041205', 's104777544_db');
+// $mysqli = new mysqli('feenix-mariadb.swin.edu.au', 's104777544', '041205', 's104777544_db');
+$mysqli = new mysqli('localhost:3306', 'root', '', 'xandb');
 
 if ($mysqli->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -213,6 +214,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <link rel="stylesheet" href="css/transactions.css">
 </head>
+<style>
+    .addRecord {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    #TransactionInfo label, #PropertyInfo label, #AgentInfo label, #TransacPartyInfo label, #DocumentInfo label{
+        width: 150px;
+        margin-left: 50px;
+    }
+    #FormSubmit {
+        width: 100%;
+    }
+    select {
+        cursor: pointer;
+    }
+    .document-content {
+        display: flex;
+    }
+    .document-content textarea {
+        border: 2px solid gray;
+        border-radius: 10px;
+    }
+    .document-content label {
+        width: 150px;
+        margin-left: 50px;
+    }
+</style>
 <body>
     <?php 
         include('header.php');
@@ -253,10 +283,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php endif; ?>
             <form method="post" action="" class="addRecord">
                 <h3>Transaction Form</h3>
-                <h5>Transaction Information</h5>
                 <div class="col-12" id="TransactionInfo">
+                    <h5>Transaction Information</h5>
                     <label for="form-transaction-type">Type of transaction</label>
-                    <select name="TransactionType" id="form-transaction-type">
+                    <select class="col-2" name="TransactionType" id="form-transaction-type">
                         <option value="">Select one</option>
                         <option value="sale">sale</option>
                         <option value="rental">rental</option>
@@ -273,37 +303,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <span class="alert"><?php echo $formSubmitted ? ($errors['EndDate'] ?? '') : ''; ?></span>
                 </div>
                 <br>
-                <div class="form-floating mb-1 justify-content-around">
-                    <div class="property-info">
-                        <h5>Property Information</h5>
-                        <div class="col-12 form-floating mb-2" id="PropertyInfo">
-                            <input type="text" name="PropertyName" id="form-prop-name" class="form-control" placeholder="Property Name" style='width: 200px;'>
-                            <label for="form-prop-name" class="form-floating mb-3">Property Name</label>
-                            <span class="alert"><?php echo $formSubmitted ? ($errors['PropertyName'] ?? '') : ''; ?></span>
-                        </div>                        
-                    </div>
-                    <div class="agent-info">
-                        <h5>Agent Information</h5>
-                        <div class="col-12 form-floating mb-2" id="AgentInfo">
-                            <input type="text" maxlength="255" name="AgentName" id="form-agent-name" class="form-control" placeholder="Agent Name" style='width: 200px;'>
-                            <label for="form-agent-name">Agent Name</label>
-                            <span class="alert"><?php echo $formSubmitted ? ($errors['AgentName'] ?? '') : ''; ?></span>
-                        </div>                            
-                    </div>
-                </div>
+                <div class="col-12 mb-2" id="PropertyInfo">
+                <h5>Property Information</h5>
+                    <label for="form-prop-name">Property Name</label>
+                    <input type="text" name="PropertyName" id="form-prop-name" placeholder="Apartment A">
+                    <span class="alert"><?php echo $formSubmitted ? ($errors['PropertyName'] ?? '') : ''; ?></span>
+                </div>                        
+                <div class="col-12 mb-2" id="AgentInfo">
+                <h5>Agent Information</h5>
+                    <label for="form-agent-name">Agent Name</label>
+                    <input type="text" name="AgentName" id="form-agent-name" placeholder="John Doe">
+                    <span class="alert"><?php echo $formSubmitted ? ($errors['AgentName'] ?? '') : ''; ?></span>
+                </div>                            
                 <br>
                 <div class="col-12" id="TransacPartyInfo">
-                    <div class="row" style="display: flex;">
-                        <h5>Transaction Parties Information</h5>
-                        <div class="col-12 first-party">
-                            <div class="col-12 form-floating mb-2">
-                                <input type="text" name="FirstPartyName" id="form-party-name-1" class="form-control" placeholder="First party" style='width: 200px;'>
+                    <div class="row">
+                    <h5>Transaction Parties Information</h5>
+                        <div class="col-6 first-party">
+                            <div>
                                 <label for="form-party-name-1">First party</label>
+                                <input type="text" name="FirstPartyName" id="form-party-name-1" placeholder="Party A">
                                 <span class="alert"><?php echo $formSubmitted ? ($errors['FirstPartyName'] ?? '') : ''; ?></span>
                             </div>
 
-                            <label for="form-transacparty-type">First party's role (Owner/Seller/Lessor)</label>
-                            <select name="FirstPartyRole" id="form-transacparty-type-1">
+                            <label for="form-transacparty-type">First party's role</label>
+                            <select class="col-6" name="FirstPartyRole" id="form-transacparty-type-1">
                                 <option value="">Select one</option>
                                 <option value="Owner">Owner</option>
                                 <option value="Seller">Seller</option>
@@ -312,14 +336,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <br>
                             <span class="alert"><?php echo $formSubmitted ? ($errors['FirstPartyRole'] ?? '') : ''; ?></span>
                         </div>
-                        <div class="col-12 second-party">
-                            <div class="col-12 form-floating mb-2">
-                                <input type="text" name="SecondPartyName" id="form-party-name-2" class="form-control" placeholder="Second party"style='width: 200px;'>
+                        <div class="col-6 second-party">
+                            <div>
                                 <label for="form-party-name-2">Second party</label>
+                                <input type="text" name="SecondPartyName" id="form-party-name-2" placeholder="Party B">
                                 <span class="alert"><?php echo $formSubmitted ? ($errors['SecondPartyName'] ?? '') : ''; ?></span>
                             </div>
-                            <label for="form-transacparty-type">Second party's role (Tenant/Buyer/Lessee)</label>
-                            <select name="SecondPartyRole" id="form-transacparty-type-2">
+                            <label for="form-transacparty-type">Second party's role</label>
+                            <select class="col-6" name="SecondPartyRole" id="form-transacparty-type-2">
                                 <option value="">Select one</option>
                                 <option value="Tenant">Tenant</option>
                                 <option value="Buyer">Buyer</option>
@@ -334,7 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="col-12" id="DocumentInfo">
                     <h5>Document Information</h5>
                     <label for="form-document-type">Document type</label>
-                    <select name="DocumentType" id="form-document-type">
+                    <select class="col-2" name="DocumentType" id="form-document-type">
                         <option value="">Select one</option>
                         <option value="Contract">Contract</option>
                         <option value="Invoice">Invoice</option>
@@ -342,13 +366,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </select>
                     <span class="alert"><?php echo $formSubmitted ? ($errors['DocumentType'] ?? '') : ''; ?></span>
                     <br>
-                    <label for="form-document-content">Document content</label>
-                    <input type="text" name="DocumentContent" id="form-document-content" maxlength="255">
+                    <div class="document-content">
+                        <label for="form-document-content">Document content</label>
+                        <textarea name="DocumentContent" id="form-document-content" rows="1" placeholder="Content for document"></textarea>
+                    </div>
                     <span class="alert"><?php echo $formSubmitted ? ($errors['DocumentContent'] ?? '') : ''; ?></span>
                 </div>
                 <br>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <input type="submit" name="FormSubmit" id="">
+                <div class="col-lg-3 col-md-6 col-5">
+                    <input class="col-10" type="submit" name="FormSubmit" id="FormSubmit">
                 </div>
             </form>
         </div>
@@ -372,13 +398,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Custom -->
     <script src="js/plugins.init.js"></script>
     <script src="js/app.js"></script>
-    
-    <?php 
-        // }
-        // else {
-        //     header("Location: index.php");
-        //     exit();
-        // }
-    ?>
 </body>
 </html>
+
+<?php 
+    // }
+    // else {
+    //     header("Location: index.php");
+    //     exit();
+    // }
+?>

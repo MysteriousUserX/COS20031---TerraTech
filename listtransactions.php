@@ -200,9 +200,8 @@ function sanitize_input($data) {
                                             <div class="mb-3 mb-sm-0">
                                                 <label for="transaction-name-keyword" class="form-label d-none fs-6">Search :</label>
                                                 <div class="filter-search-form position-relative filter-border">
-                                                    <i data-feather="search" class="fea icon-ex-md icons"></i>
                                                     <input name="TransactionKeyword" type="text" id="transaction-name-keyword"
-                                                        class="form-control filter-input-box bg-light border-0"
+                                                        class="form-control bg-light border-0"
                                                         placeholder="Search property">
                                                 </div>
                                             </div>
@@ -213,7 +212,6 @@ function sanitize_input($data) {
                                             <div class="mb-3 mb-sm-0">
                                                 <label class="form-label d-none fs-6">Select type of transaction:</label>
                                                 <div class="filter-search-form position-relative filter-border">
-                                                    <i data-feather="home" class="fea icon-ex-md icons"></i>
                                                     <select class="form-select select-transaction-type" id="choices-transaction-type" name="TransactionType">
                                                         <option value="">Type</option>
                                                         <option value="sale">Sale</option>
@@ -230,7 +228,6 @@ function sanitize_input($data) {
                                             <div class="mb-3 mb-sm-0">
                                                 <label class="form-label d-none fs-6">Document:</label>
                                                 <div class="filter-search-form position-relative">
-                                                    <i data-feather="dollar-sign" class="fea icon-ex-md icons"></i>
                                                     <select class="form-select select-document-type" id="choices-document-type" name="DocumentType">
                                                         <option value="">Document</option>
                                                         <option value="Contract">Contract</option>
@@ -370,6 +367,22 @@ function sanitize_input($data) {
             </div>
         </div>
     <?php include('footer.php');?>
+
+    <!-- Back to top -->
+    <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top rounded-pill fs-5"><i data-feather="arrow-up" class="fea icon-sm align-middle"></i></a>
+    <!-- Back to top -->
+
+    <!-- JAVASCRIPTS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- Tobii -->
+    <script src="js/tobii.min.js"></script>
+    <!-- Choice js -->
+    <script src="js/choices.min.js"></script>
+    <!-- Icons -->
+    <script src="js/feather.min.js"></script>
+    <!-- Custom -->
+    <script src="js/plugins.init.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
 

@@ -1,18 +1,16 @@
-main {
-    margin-bottom: 10vh;
-    width: 100%;
-}
 .addRecord {
     width: 80%;
     margin: 10vh auto;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     line-height: 2em;
     letter-spacing: 0.5px;
-    /* border: 1px ridge #1E293B; */
-    padding: 10px; 
     border-radius: 10px; 
     box-shadow: 0 20px 27px 0 gray; 
     background-color: #EEE;
+    padding: 20px;
 }
 .justify-content-around {
     width: 80%; 
@@ -39,15 +37,16 @@ main {
 .addRecord select {
     padding: 10px
 }
-.addRecord input[type='text']:focus {
+.addRecord input:focus {
     border: 2px solid #1E293B;
 }
 #form-start-date, #form-end-date {
     border: 2px solid #1E293B;
-    border-radius: 10px;
+    border-radius: 10px;    
 }
-#TransactionInfo label, #DocumentInfo label {
+#TransactionInfo label, #PropertyInfo label, #AgentInfo label, #TransacPartyInfo label, #DocumentInfo label{
     width: 150px;
+    margin-left: 50px;
 }
 #form-start-date, #form-end-date {
     border: 2px solid #1E293B;
@@ -60,11 +59,11 @@ main {
 #TransacPartyInfo {
     display: flex;
 }
-.mb-lg-5 {
-    padding: 10px; 
-    border-radius: 2px; 
-    box-shadow: 0 20px 27px 0 lightgrey; 
-    background-color: #EEE;
+#FormSubmit {
+    width: 100%;
+}
+select {
+    cursor: pointer;
 }
 .alert {
     width: fit-content;
