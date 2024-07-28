@@ -362,5 +362,12 @@
         "Name": "Hale",
         "Email": "aushd@gmail.com",
         "Password": "$2y$10$.5W\/aoIBFlIfQAv\/zA5pueyaVIUtDzSHl6pTAE\/Th5mSeT7vpr73K"
+    },
+    {
+        "UUID": 53,
+        "Nature": "Individual",
+        "Name": "Thinh",
+        "Email": "signup@gmail.com",
+        "Password": "$2y$10$uodEBswMymux\/eLMt8frb.\/cIt.0PaLFPgDHhCErD0iCG.mG9rjb."
     }
 ]
