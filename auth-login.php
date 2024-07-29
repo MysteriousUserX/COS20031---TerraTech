@@ -29,17 +29,20 @@
             <div class="row">
                 <div class="col-12">
                     <div class="p-4 bg-white rounded-3 shadow-md mx-auto w-100" style="max-width: 400px;">
-                        <form>
+
+                        <form action="auth_login_validation.php" method="POST">
                             <a href="index.php"><img src="images/terra-normal-trans.png" class="mb-4 d-block mx-auto"
                                     alt=""></a>
                             <h5 class="mb-3">Please sign in</h5>
 
                             <div class="form-floating mb-2">
-                                <input type="email" class="form-control" id="LoginEmail" placeholder="name@example.com">
+                                <input type="email" class="form-control" id="LoginEmail" name="LoginEmail"
+                                    placeholder="name@example.com">
                                 <label for="LoginEmail">Email address</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="LoginPassword" placeholder="Password">
+                                <input type="password" class="form-control" id="LoginPassword" name="LoginPassword"
+                                    placeholder="Password">
                                 <label for="LoginPassword">Password</label>
                             </div>
 

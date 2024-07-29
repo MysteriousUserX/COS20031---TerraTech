@@ -1,7 +1,6 @@
 <?php
 
 // Validation and sanitization functions
-
 function sanitizeInput($data) {
     if (is_array($data)) {
         $sanitized_input = array();
@@ -60,42 +59,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $matchpwd = false;
     } else {
         // Path to the JSON file
-    $filePath = 'json_data/partiesdata.json';
-    // Get existing data
-    if (file_exists($filePath)) {
-        $jsonData = file_get_contents($filePath);
-        $data = json_decode($jsonData, true);
-    } else {
-        $data = [];
-    }
-
-    // Find the highest existing ID
-    $maxId = 0;
-    foreach ($data as $user) {
-        if (isset($user['UUID']) && $user['UUID'] > $maxId) {
-            $maxId = $user['UUID'];
+        $filePath = 'json_data/partiesdata.json';
+        // Get existing data
+        if (file_exists($filePath)) {
+            $jsonData = file_get_contents($filePath);
+            $data = json_decode($jsonData, true);
+        } else {
+            $data = [];
         }
+
+        // Find the highest existing ID
+        $maxId = 0;
+        foreach ($data as $user) {
+            if (isset($user['UUID']) && $user['UUID'] > $maxId) {
+                $maxId = $user['UUID'];
+            }
+        }
+        $hashedPassword = password_hash($pwd, PASSWORD_BCRYPT);
+        // New user data
+        $newUser = [
+            "UUID" => $maxId + 1,
+            "Nature" => $nature,
+            "Name" => $name,
+            "Email" => $email,
+            "Password" => $hashedPassword
+        ];
+
+        // Add new user to data
+        $data[] = $newUser;
+
+        // Encode data to JSON and save
+        $newJsonData = json_encode($data, JSON_PRETTY_PRINT);
+        file_put_contents($filePath, $newJsonData);
+
+        // Database connection
+        include("dbConnect.php");
+
+        // Insert new user into database
+        $stmt = $conn->prepare("INSERT INTO parties (Nature, Name, Email, Password) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $nature, $name, $email, $hashedPassword);
+
+        if ($stmt->execute()) {
+            echo "User successfully registered in the database!<br>";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+        $conn->close();
+
+        // Redirect or inform the user of success
+        echo "User successfully registered! <a href='parties.php'>Navigate to Parties listing</a>";
+        exit();
     }
-
-    // New user data
-    $newUser = [
-        "UUID" => $maxId + 1,
-        "Nature" => $nature,
-        "Name" => $name,
-        "Email" => $email,
-        "Password" => password_hash($pwd, PASSWORD_BCRYPT) // Encrypt the password
-    ];
-
-    // Add new user to data
-    $data[] = $newUser;
-
-    // Encode data to JSON and save
-    $newJsonData = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents($filePath, $newJsonData);
-
-    // Redirect or inform the user of success
-    echo "User successfully registered! <a href='parties.php'>Navigate to Parties listing</a>";
- 
-    exit();
-}
 }

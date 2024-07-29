@@ -1,3 +1,6 @@
+<?php
+include('sessionConfig.php');
+?>
 <!doctype html>
 <html lang="en">
 

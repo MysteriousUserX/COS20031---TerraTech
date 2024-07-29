@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,11 +13,11 @@
     <link href="images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <!-- Slider -->               
+    <!-- Slider -->
     <link href="css/tiny-slider.css" rel="stylesheet" />
     <!-- Tobii -->
     <link href="css/tobii.min.css" rel="stylesheet" type="text/css" />
-    <!-- Choice css -->               
+    <!-- Choice css -->
     <link href="css/choices.min.css" rel="stylesheet" />
     <!--Material Icon -->
     <link href="css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
@@ -130,7 +131,8 @@
                         echo '</a>';
                     }
                     ?>
-                </div><!--end col-->
+                </div>
+                <!--end col-->
 
                 <div class="col-md-6">
                     <div class="row g-2">
@@ -147,9 +149,12 @@
                         }
                         ?>
                     </div>
-                </div><!--end col-->
-            </div><!--end row-->
-        </div><!--end container-->
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
 
         <div class="container mt-100 mt-60">
             <div class="row g-4">
@@ -157,32 +162,37 @@
                     <div class="section-title">
                         <h4 class="title mb-0"><?php echo htmlspecialchars($propertydata['Name']); ?></h4>
                         <h4 class="title mb-0"><?php echo htmlspecialchars($propertydata['Address']); ?></h4>
-                        
+
                         <ul class="list-unstyled mb-0 py-3">
                             <li class="list-inline-item">
                                 <span class="d-flex align-items-center me-4">
                                     <i class="mdi mdi-arrow-expand-all fs-4 me-2 text-primary"></i>
-                                    <span class="text-muted fs-5"><?php echo htmlspecialchars($propertydata['Size']); ?>sqf</span>
+                                    <span
+                                        class="text-muted fs-5"><?php echo htmlspecialchars($propertydata['Size']); ?>sqf</span>
                                 </span>
                             </li>
 
                             <li class="list-inline-item">
                                 <span class="d-flex align-items-center me-4">
                                     <i class="mdi mdi-bed fs-4 me-2 text-primary"></i>
-                                    <span class="text-muted fs-5"><?php echo htmlspecialchars($propertydata['NumberOfRooms']); ?> Beds</span>
+                                    <span
+                                        class="text-muted fs-5"><?php echo htmlspecialchars($propertydata['NumberOfRooms']); ?>
+                                        Beds</span>
                                 </span>
                             </li>
 
                             <li class="list-inline-item">
                                 <span class="d-flex align-items-center">
                                     <i class="mdi mdi-shower fs-4 me-2 text-primary"></i>
-                                    <span class="text-muted fs-5"><?php echo htmlspecialchars($propertydata['NumberOfBathrooms']); ?> Baths</span>
+                                    <span
+                                        class="text-muted fs-5"><?php echo htmlspecialchars($propertydata['NumberOfBathrooms']); ?>
+                                        Baths</span>
                                 </span>
                             </li>
                         </ul>
 
                         <p class="text-muted">Property Amenities</p>
-                            <?php
+                        <?php
                             if (count($amenities) > 0) {
                                 echo '<ul class="text-muted">';
                                 foreach ($amenities as $amenity) {
@@ -195,7 +205,7 @@
                             ?>
 
                         <p class="text-muted">Property Features</p>
-                            <?php
+                        <?php
                             if (count($features) > 0) {
                                 echo '<ul class="text-muted">';
                                 foreach ($features as $feature) {
@@ -206,16 +216,20 @@
                                 echo '<p class="text-muted">No features listed for this property.</p>';
                             }
                             ?>
-                        <p class="text-muted">Additional Info: <?php echo nl2br(htmlspecialchars($propertydata['AdditionalInfo'])); ?></p>                    
+                        <p class="text-muted">Additional Info:
+                            <?php echo nl2br(htmlspecialchars($propertydata['AdditionalInfo'])); ?></p>
 
                         <div class="card map border-0">
                             <div class="card-body p-0">
-                                <!-- ADD GOOGLE MAP LINK IN DB -->
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39206.002432144705!2d-95.4973981212445!3d29.709510002925988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c16de81f3ca5%3A0xf43e0b60ae539ac9!2sGerald+D.+Hines+Waterwall+Park!5e0!3m2!1sen!2sin!4v1566305861440!5m2!1sen!2sin" class="rounded-3" style="border:0" allowfullscreen></iframe>
+
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39206.002432144705!2d-95.4973981212445!3d29.709510002925988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c16de81f3ca5%3A0xf43e0b60ae539ac9!2sGerald+D.+Hines+Waterwall+Park!5e0!3m2!1sen!2sin!4v1566305861440!5m2!1sen!2sin"
+                                    class="rounded-3" style="border:0" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
-                </div><!--end col-->
+                </div>
+                <!--end col-->
 
                 <div class="col-lg-4 col-md-5 col-12">
                     <div class="rounded-3 shadow bg-white sticky-bar p-4">
@@ -229,7 +243,8 @@
                         <div class="">
                             <div class="d-flex align-items-center justify-content-between mt-2">
                                 <span class="small text-muted">Property Type</span>
-                                <span class="small"><?php echo htmlspecialchars($propertydata['PropertyType']); ?></span>
+                                <span
+                                    class="small"><?php echo htmlspecialchars($propertydata['PropertyType']); ?></span>
                             </div>
 
                             <div class="d-flex align-items-center justify-content-between mt-2">
@@ -239,8 +254,9 @@
 
                             <div class="d-flex align-items-center justify-content-between mt-2">
                                 <span class="small text-muted">Property Year Built</span>
-                                <span class="small"><?php echo htmlspecialchars($propertydata['YearBuilt']); ?></span>
-                            </div>                        
+                                <span
+                                    class="small"><?php echo htmlspecialchars($propertydata['YearBuilt'] == 0 ? "Unknown" : $propertydata['YearBuilt']); ?></span>
+                            </div>
                         </div>
 
                         <div class="d-flex mt-3">
@@ -249,19 +265,25 @@
                             <a href="javascript:void(0)" class="btn btn-primary w-100">Lease</a>
                         </div>
                     </div>
-                </div><!--end col-->
-            </div><!--end row-->
-        </div><!--end container-->
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
 
         <div class="container mt-100 mt-60">
             <div class="row justify-content-center">
                 <div class="col">
                     <div class="section-title text-center mb-4 pb-2">
                         <h4 class="title mb-3">Related Properties</h4>
-                        <p class="text-muted para-desc mb-0 mx-auto">A great platform to buy, sell and rent your properties without any agent or commissions.</p>
+                        <p class="text-muted para-desc mb-0 mx-auto">A great platform to buy, sell and rent your
+                            properties without any agent or commissions.</p>
                     </div>
-                </div><!--end col-->
-            </div><!--end row-->
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
 
             <div class="row">
                 <div class="col-12">
@@ -270,56 +292,78 @@
                         <div class="tiny-slide">
                             <div class="card property border-0 shadow position-xrelative overflow-hidden rounded-3 m-3">
                                 <div class="property-image position-relative overflow-hidden shadow">
-                                    <img src="<?php echo htmlspecialchars($property['ImageURL']); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($property['Address']); ?>">
+                                    <img src="<?php echo htmlspecialchars($property['ImageURL']); ?>" class="img-fluid"
+                                        alt="<?php echo htmlspecialchars($property['Address']); ?>">
                                     <ul class="list-unstyled property-icon">
-                                        <li class=""><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home" class="icons"></i></a></li>
-                                        <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i></a></li>
-                                        <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera" class="icons"></i></a></li>
+                                        <li class=""><a href="javascript:void(0)"
+                                                class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home"
+                                                    class="icons"></i></a></li>
+                                        <li class="mt-1"><a href="javascript:void(0)"
+                                                class="btn btn-sm btn-icon btn-pills btn-primary"><i
+                                                    data-feather="heart" class="icons"></i></a></li>
+                                        <li class="mt-1"><a href="javascript:void(0)"
+                                                class="btn btn-sm btn-icon btn-pills btn-primary"><i
+                                                    data-feather="camera" class="icons"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="card-body content p-4">
-                                    <a href="property-detail.php?uuid=<?php echo htmlspecialchars($property['UUID']); ?>" class="title fs-5 text-dark fw-medium"><?php echo htmlspecialchars($property['Address']); ?></a>
-                                    <ul class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
+                                    <a href="property-detail.php?uuid=<?php echo htmlspecialchars($property['UUID']); ?>"
+                                        class="title fs-5 text-dark fw-medium"><?php echo htmlspecialchars($property['Address']); ?></a>
+                                    <ul
+                                        class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
                                         <li class="d-flex align-items-center me-3">
                                             <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
-                                            <span class="text-muted"><?php echo htmlspecialchars($property['Size']); ?> sqf</span>
+                                            <span class="text-muted"><?php echo htmlspecialchars($property['Size']); ?>
+                                                sqf</span>
                                         </li>
                                         <li class="d-flex align-items-center me-3">
                                             <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                            <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfRooms']); ?> Bed</span>
+                                            <span
+                                                class="text-muted"><?php echo htmlspecialchars($property['NumberOfRooms']); ?>
+                                                Bed</span>
                                         </li>
                                         <li class="d-flex align-items-center">
                                             <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                            <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfBathrooms']); ?> Bath</span>
+                                            <span
+                                                class="text-muted"><?php echo htmlspecialchars($property['NumberOfBathrooms']); ?>
+                                                Bath</span>
                                         </li>
                                     </ul>
                                     <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
                                         <li class="list-inline-item mb-0">
                                             <span class="text-muted">Price</span>
-                                            <p class="fw-medium mb-0">$ <?php echo formatPrice($property['EstimatedValue']); ?></p>
+                                            <p class="fw-medium mb-0">$
+                                                <?php echo formatPrice($property['EstimatedValue']); ?></p>
                                         </li>
                                         <li class="list-inline-item mb-0 text-muted">
                                             <span class="text-muted">Property Type</span>
                                             <ul class="fw-medium text-warning list-unstyled mb-0">
-                                                <li class="list-inline-item mb-0 text-dark"><?php echo htmlspecialchars($property['PropertyType']); ?></li>
+                                                <li class="list-inline-item mb-0 text-dark">
+                                                    <?php echo htmlspecialchars($property['PropertyType']); ?></li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </div>
-                            </div><!--end card-->
-                        </div><!--end tiny-slide-->
+                            </div>
+                            <!--end card-->
+                        </div>
+                        <!--end tiny-slide-->
                         <?php endwhile; ?>
                     </div>
                 </div>
-            </div><!--end row-->
-        </div><!--end container-->
-    </section><!--end section-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+    </section>
+    <!--end section-->
     <!-- End -->
 
     <?php include('footer.php'); ?>
 
     <!-- Back to top -->
-    <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top rounded-pill fs-5"><i data-feather="arrow-up" class="fea icon-sm align-middle"></i></a>
+    <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top rounded-pill fs-5"><i
+            data-feather="arrow-up" class="fea icon-sm align-middle"></i></a>
     <!-- Back to top -->
 
     <!-- JAVASCRIPTS -->
@@ -327,7 +371,7 @@
     <!-- Tiny slider -->
     <script src="js/tiny-slider.js"></script>
     <!-- Tobii -->
-    <script src="js/tobii.min.js"></script> 
+    <script src="js/tobii.min.js"></script>
     <!-- Choice js -->
     <script src="js/choices.min.js"></script>
     <!-- Icons -->
@@ -336,5 +380,5 @@
     <script src="js/plugins.init.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
-                            

@@ -1,13 +1,6 @@
-<?php
-$host = "feenix-mariadb.swin.edu.au";
-$user = "s104773380";
-$pwd = "301105";
-$sql_db = "s104773380_db";
 
-$conn = @mysqli_connect($host, $user, $pwd, $sql_db);
-if (!$conn) {
-    die("<p>Database connection failure: " . mysqli_connect_error() . "</p>");
-}
+<?php
+include_once("dbConnect.php");
 
 $sql_table_properties = "Properties";
 $sql_table_amenities = "PropertyAmenities";
@@ -16,13 +9,13 @@ $sql_table_images = "PropertyImages";
 
 // Helper function to handle file uploads
 function uploadImage($file) {
-    $target_dir = "images/";
-    $target_file = $target_dir . basename($file["name"]);
-    if (move_uploaded_file($file["tmp_name"], $target_file)) {
-        return $target_file;
-    } else {
-        return null;
-    }
+$target_dir = "images/";
+$target_file = $target_dir . basename($file["name"]);
+if (move_uploaded_file($file["tmp_name"], $target_file)) {
+return $target_file;
+} else {
+return null;
+}
 }
 
 $address = $_POST['address'];
@@ -47,32 +40,36 @@ $image4 = uploadImage($_FILES['property_image_4']);
 $image5 = uploadImage($_FILES['property_image_5']);
 
 if ($image1 && $image2 && $image3 && $image4 && $image5) {
-    $query = "INSERT INTO $sql_table_properties (Address, Name, PropertyType, Size, NumberOfRooms, NumberOfBathrooms, NumberOfFloors, YearBuilt, EstimatedValue, AdditionalInfo, DatePosted)
-              VALUES ('$address', '$name', '$propertyType', $propertySize, $bedrooms, $bathrooms, $floors, $yearBuilt, $estimatedValue, '$additionalInfo', NOW())";
-    if (mysqli_query($conn, $query)) {
-        $propertyUUID = mysqli_insert_id($conn);
+$query = "INSERT INTO $sql_table_properties (Address, Name, PropertyType, Size, NumberOfRooms, NumberOfBathrooms,
+NumberOfFloors, YearBuilt, EstimatedValue, AdditionalInfo, DatePosted)
+VALUES ('$address', '$name', '$propertyType', $propertySize, $bedrooms, $bathrooms, $floors, $yearBuilt,
+$estimatedValue, '$additionalInfo', NOW())";
+if (mysqli_query($conn, $query)) {
+$propertyUUID = mysqli_insert_id($conn);
 
-        $amenityQuery = "INSERT INTO $sql_table_amenities (PropertyUUID, AmenityName, Description) VALUES ($propertyUUID, '$amenity', '$amenitydesc')";
-        mysqli_query($conn, $amenityQuery);
+$amenityQuery = "INSERT INTO $sql_table_amenities (PropertyUUID, AmenityName, Description) VALUES ($propertyUUID,
+'$amenity', '$amenitydesc')";
+mysqli_query($conn, $amenityQuery);
 
-        $featureQuery = "INSERT INTO $sql_table_features (PropertyUUID, FeatureName, FeatureDescription) VALUES ($propertyUUID, '$feature', '$featuredesc')";
-        mysqli_query($conn, $featureQuery);
+$featureQuery = "INSERT INTO $sql_table_features (PropertyUUID, FeatureName, FeatureDescription) VALUES ($propertyUUID,
+'$feature', '$featuredesc')";
+mysqli_query($conn, $featureQuery);
 
-        $imageQuery = "INSERT INTO $sql_table_images (PropertyUUID, ImageURL, Description) VALUES 
-                        ($propertyUUID, '$image1', ''), 
-                        ($propertyUUID, '$image2', ''), 
-                        ($propertyUUID, '$image3', ''), 
-                        ($propertyUUID, '$image4', ''), 
-                        ($propertyUUID, '$image5', '')";
-        mysqli_query($conn, $imageQuery);
+$imageQuery = "INSERT INTO $sql_table_images (PropertyUUID, ImageURL, Description) VALUES
+($propertyUUID, '$image1', 'Image of property $PropertyUUID'),
+($propertyUUID, '$image2', 'Image of property $PropertyUUID'),
+($propertyUUID, '$image3', 'Image of property $PropertyUUID'),
+($propertyUUID, '$image4', 'Image of property $PropertyUUID'),
+($propertyUUID, '$image5', 'Image of property $PropertyUUID')";
+mysqli_query($conn, $imageQuery);
 
-        echo "<p>Property added successfully!</p>";
-    } else {
-        echo "<p>Error: " . mysqli_error($conn) . "</p>";
-    }
 } else {
-    echo "<p>Error uploading images.</p>";
+echo "<p>Error: " . mysqli_error($conn) . "</p>";
+}
+} else {
+echo "<p>Error uploading images.</p>";
 }
 
 mysqli_close($conn);
-?>
+
+
