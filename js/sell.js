@@ -1,3 +1,4 @@
+
 try {
     function validatePropertyForm() {
         var address = document.forms["propertyForm"]["address"].value;
@@ -135,3 +136,4 @@ try {
 } catch (error) {
     console.error(error);
 }
+

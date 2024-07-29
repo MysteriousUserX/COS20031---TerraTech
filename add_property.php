@@ -1,3 +1,4 @@
+
 <?php
 include_once("dbConnect.php");
 
@@ -70,3 +71,5 @@ echo "<p>Error uploading images.</p>";
 }
 
 mysqli_close($conn);
+
+
