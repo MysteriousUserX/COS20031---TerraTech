@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         include("dbConnect.php");
 
         // Insert new user into database
-        $stmt = $conn->prepare("INSERT INTO parties (Nature, Name, Email, Password) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO Parties (Nature, Name, Email, Password) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $nature, $name, $email, $hashedPassword);
 
         if ($stmt->execute()) {

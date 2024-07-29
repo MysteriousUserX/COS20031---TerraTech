@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
-            if ($password == $user['Password']) {
+            if (password_verify($password, $user['Password'])) {
                 // Password is correct, set up the session
                 $_SESSION['LoginEmail'] = $user['Email'];
               
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: index.php");
                 exit();
             } else {
-                $error = "Invalid email or password.";
+                $error = "Invalid password.";
             }
         } else {
             $error = "Invalid email or password.";
