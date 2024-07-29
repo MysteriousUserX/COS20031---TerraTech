@@ -14,7 +14,9 @@ ini_set('session.regenerate_freq', 1800); // Regenerate every 30 minutes
 // Use cookies only for session storage (prevent alternative methods)
 ini_set('session.use_only_cookies', true);
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['LoginEmail'])) {
     header("Location: auth-login.php");

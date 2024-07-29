@@ -28,6 +28,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
         <ul class="buy-button list-inline mb-0">
             <li class="list-inline-item ps-1 mb-0">
+
                 <div class="dropdown">
                     <button type="button" class="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,9 +49,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </div>
                 </div>
             </li>
+
+
             <li class="list-inline-item ps-1 mb-0">
-                <a href="auth-login.php" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="user"
-                        class="icons"></i></a>
+                <a href="auth-login.php" class="btn btn-sm btn-icon btn-pills btn-primary">
+                    <i data-feather="user" class="icons"></i>
+                </a>
 
                 <!-- Conditionally display the plus icon based on the current page -->
                 <?php if ($current_page == 'agents.php'): ?>
@@ -58,12 +62,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     data-bs-target="#addAgentModal">
                     <i data-feather="plus" class="icons"></i>
                 </a>
+                <?php endif; ?>
 
+                <?php if (session_status() === PHP_SESSION_NONE) {session_start();} ?>
+                <?php if (isset($_SESSION['LoginEmail'])): ?>
+
+                <a href="logout.php" class="btn btn-sm btn-icon btn-pills btn-primary " class="dropdown-item"
+                    type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <i data-feather="log-out" class="icons"> Sign out </i>
+                </a>
 
 
                 <?php endif; ?>
 
             </li>
+
+
         </ul>
 
         <div id="navigation">
@@ -92,5 +106,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </div>
     </div>
+
 </header>
 <!-- Navbar End -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You've been signed out.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="logoutButton">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.getElementById('logoutButton').addEventListener('click', function() {
+    window.location.href = 'logout.php'; // Redirect to logout.php
+});
+</script>
