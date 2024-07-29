@@ -99,7 +99,8 @@
                                     <div class="mb-3">
                                         <label class="form-label">Property Type <span
                                                 class="text-danger">*</span></label>
-                                        <select name="property_type" id="property_type" class="form-select">
+                                        <select name="property_type" id="property_type"
+                                            class="form-select form-control">
                                             <option value="Commercial">Commercial</option>
                                             <option value="Industrial">Industrial</option>
                                             <option value="Land">Land</option>

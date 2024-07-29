@@ -6,7 +6,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <!-- Navbar Start -->
 <header id="topnav" class="defaultscroll sticky">
     <div class="container">
-        <a class="logo" href="index.html">
+        <a class="logo" href="index.php">
             <span class="logo-light-mode">
                 <img src="images/terralogo.png" class="l-dark" alt="">
                 <img src="images/terralogo.png" class="l-light" alt="">
@@ -74,10 +74,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <li class="has-submenu parent-parent-menu-item">
                     <a href="javascript:void(0)">Listing</a><span class="menu-arrow"></span>
                     <ul class="submenu">
-                        <li class="has-submenu parent-menu-item"><a href="javascript:void(0)">List View</a><span
+                        <li class="has-submenu parent-menu-item"><a href="javascript:void(0)">List</a><span
                                 class="submenu-arrow"></span>
                             <ul class="submenu">
-                                <li><a href="list.php" class="sub-menu-item">List Listing</a></li>
+                                <li><a href="list.php" class="sub-menu-item">House Listings</a></li>
                             </ul>
                         </li>
                         <li class="has-submenu parent-menu-item"><a href="javascript:void(0)">People</a><span

@@ -1,5 +1,9 @@
+<?php
+include('sessionConfig.php');
+?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,10 +39,14 @@
                         <p class="text-white-50 para-desc mx-auto mb-0">List view</p>
                         <h5 class="heading fw-semibold mb-0 sub-heading text-white title-dark">Property Listing</h5>
                     </div>
-                </div><!--end col-->
-            </div><!--end row-->
-        </div><!--end container-->
-    </section><!--end section-->
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+    </section>
+    <!--end section-->
     <div class="position-relative">
         <div class="shape overflow-hidden text-white">
             <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,10 +73,13 @@
                                                 <label class="form-label d-none fs-6">Search :</label>
                                                 <div class="filter-search-form position-relative filter-border">
                                                     <i data-feather="search" class="fea icon-ex-md icons"></i>
-                                                    <input name="job-keyword" type="text" id="job-keyword" class="form-control filter-input-box bg-light border-0" placeholder="Search your keywords">
+                                                    <input name="job-keyword" type="text" id="job-keyword"
+                                                        class="form-control filter-input-box bg-light border-0"
+                                                        placeholder="Search your keywords">
                                                 </div>
                                             </div>
-                                        </div><!--end col-->
+                                        </div>
+                                        <!--end col-->
 
                                         <div class="col-lg-3 col-md-6 col-12">
                                             <div class="mb-3 mb-sm-0">
@@ -76,7 +87,8 @@
                                                 <label class="form-label d-none fs-6">Select Categories:</label>
                                                 <div class="filter-search-form position-relative filter-border">
                                                     <i data-feather="home" class="fea icon-ex-md icons"></i>
-                                                    <select name="category" class="form-select" id="choices-catagory-buy">
+                                                    <select name="category" class="form-select"
+                                                        id="choices-catagory-buy">
                                                         <option value="">All Categories</option>
                                                         <option value="Residential">Residential</option>
                                                         <option value="Land">Land</option>
@@ -86,7 +98,8 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div><!--end col-->
+                                        </div>
+                                        <!--end col-->
 
                                         <div class="col-lg-3 col-md-6 col-12">
                                             <div class="mb-3 mb-sm-0">
@@ -94,25 +107,34 @@
                                                 <label class="form-label d-none fs-6">Price :</label>
                                                 <div class="filter-search-form position-relative">
                                                     <i data-feather="dollar-sign" class="fea icon-ex-md icons"></i>
-                                                    <input name="price-search" type="text" id="price-search" class="form-control filter-input-box bg-light border-0" placeholder="Highest price">
+                                                    <input name="price-search" type="text" id="price-search"
+                                                        class="form-control filter-input-box bg-light border-0"
+                                                        placeholder="Highest price">
                                                 </div>
                                             </div>
-                                        </div><!--end col-->
+                                        </div>
+                                        <!--end col-->
 
                                         <div class="col-lg-3 col-md-6 col-12">
-                                            <input type="submit" id="search" name="search" style="height: 60px;" class="btn btn-primary searchbtn w-100" value="Search">
-                                        </div><!--end col-->
-                                    </div><!--end row-->
+                                            <input type="submit" id="search" name="search" style="height: 60px;"
+                                                class="btn btn-primary searchbtn w-100" value="Search">
+                                        </div>
+                                        <!--end col-->
+                                    </div>
+                                    <!--end row-->
                                 </div>
-                            </form><!--end form-->
+                            </form>
+                            <!--end form-->
 
                         </div>
                     </div>
-                </div><!--end col-->
-            </div><!--end row-->
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
 
             <div class="row">
-            <?php
+                <?php
                 define('RECORDS_PER_PAGE', 40); // Define the number of records to display per page
                 require_once("settings.php"); 
 
@@ -232,7 +254,8 @@
                 mysqli_close($conn);
                 ?>
 
-            </div><!--end row-->
+            </div>
+            <!--end row-->
 
             <!-- Pagination -->
             <div class="row">
@@ -250,17 +273,22 @@
                         }
                         ?>
                     </ul>
-                </div><!--end col-->
-            </div><!--end row-->
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
 
-        </div><!--end container-->
-    </section><!--end section-->
+        </div>
+        <!--end container-->
+    </section>
+    <!--end section-->
     <!-- End -->
 
     <?php include('footer.php')?>
 
     <!-- Back to top -->
-    <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top rounded-pill fs-5"><i data-feather="arrow-up" class="fea icon-sm align-middle"></i></a>
+    <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top rounded-pill fs-5"><i
+            data-feather="arrow-up" class="fea icon-sm align-middle"></i></a>
     <!-- Back to top -->
 
     <!-- JAVASCRIPTS -->
@@ -275,4 +303,5 @@
     <script src="js/plugins.init.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
