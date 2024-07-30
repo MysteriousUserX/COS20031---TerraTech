@@ -6,8 +6,8 @@
 
 <?php 
 // connecting to the database.
-// $mysqli = new mysqli('feenix-mariadb.swin.edu.au', 's104777544', '041205', 's104777544_db');
-$mysqli = new mysqli('localhost:3306', 'root', '', 'xandb');
+$mysqli = new mysqli('feenix-mariadb.swin.edu.au', 's104777544', '041205', 's104777544_db');
+// $mysqli = new mysqli('localhost:3306', 'root', '', 'xandb');
 
 
 if ($mysqli->connect_error) {
