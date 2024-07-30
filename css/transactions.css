@@ -1,0 +1,99 @@
+.addRecord {
+    width: 80%;
+    margin: 10vh auto;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 2em;
+    letter-spacing: 0.5px;
+    border-radius: 10px; 
+    box-shadow: 0 20px 27px 0 gray; 
+    background-color: #EEE;
+    padding: 20px;
+}
+.justify-content-around {
+    width: 80%; 
+    display: flex;
+}
+.property-info, .agent-info {
+    width: 50%;
+}
+.addRecord label, .addRecord span {
+    font-size: 0.95em;
+}
+.addRecord input[type='submit'] {
+    width: 5em;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    background-color: #1E293B;
+}
+.addRecord input[type='text'], .addRecord select {
+    border: 2px solid gray;
+    border-radius: 10px;
+}
+.addRecord select {
+    padding: 10px
+}
+.addRecord input:focus {
+    border: 2px solid #1E293B;
+}
+#form-start-date, #form-end-date {
+    border: 2px solid #1E293B;
+    border-radius: 10px;    
+}
+#TransactionInfo label, #PropertyInfo label, #AgentInfo label, #TransacPartyInfo label, #DocumentInfo label{
+    width: 150px;
+    margin-left: 50px;
+}
+#form-start-date, #form-end-date {
+    border: 2px solid #1E293B;
+    border-radius: 10px;
+    left: 10px;
+}
+#PropertyInfo h5{
+    font-size: 1em;
+}
+#TransacPartyInfo {
+    display: flex;
+}
+#FormSubmit {
+    width: 100%;
+}
+select {
+    cursor: pointer;
+}
+.alert {
+    width: fit-content;
+    color: #a94442;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    margin: 0 auto;
+}
+.notify {
+    width: fit-content;
+    background-color: #b5dcb5;
+    color: #354935;
+    padding: 10px;
+    border: 1px solid #82EE82;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    margin: 0 auto;
+}
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+.pagination a.active {
+    background-color: #1e293b;
+    color: white;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}

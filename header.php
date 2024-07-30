@@ -83,7 +83,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div id="navigation">
             <ul class="navigation-menu nav-left nav-light">
                 <li><a href="index.php" class="sub-menu-item">Home</a></li>
-                <li><a href="buy.html" class="sub-menu-item">Buy</a></li>
+                <li><a href="formtransactions.php" class="sub-menu-item">Buy</a></li>
                 <li><a href="sell.php" class="sub-menu-item">Sell</a></li>
                 <li class="has-submenu parent-parent-menu-item">
                     <a href="javascript:void(0)">Listing</a><span class="menu-arrow"></span>
@@ -92,6 +92,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                 class="submenu-arrow"></span>
                             <ul class="submenu">
                                 <li><a href="list.php" class="sub-menu-item">House Listings</a></li>
+                                <li><a href="listtransactions.php" class="sub-menu-item">Transactions Listing</a></li>
                             </ul>
                         </li>
                         <li class="has-submenu parent-menu-item"><a href="javascript:void(0)">People</a><span
