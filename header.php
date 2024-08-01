@@ -70,6 +70,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <a href="logout.php" class="btn btn-sm btn-icon btn-pills btn-primary " class="dropdown-item"
                     type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     <i data-feather="log-out" class="icons"> Sign out </i>
+                    
                 </a>
 
 

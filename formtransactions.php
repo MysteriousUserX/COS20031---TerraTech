@@ -29,7 +29,7 @@ function validateEndDate($startDate, $endDate) {
     if (empty($endDate)) {
         return '2099-12-31';
     }
-    if ($endDate <= $currentDate && $endDate > $startDate) {
+    if ($endDate >= $startDate) {
         return $endDate;
     } else {
         return false;
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     $validatedEndDate = validateEndDate($startDate, $endDate);
     if (!$validatedEndDate || empty($endDate)) {
-        $errors['EndDate'] = "Invalid end date. It must be after the start date and before today.";
+        $errors['EndDate'] = "Invalid end date. It must be after the start date.";
     }
 
     // Validate property data
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         // Check if the property exists
-        $propertyIDquery = "SELECT UUID FROM properties WHERE Name = '$propertyName' LIMIT 1";
+        $propertyIDquery = "SELECT UUID FROM Properties WHERE Name = '$propertyName' LIMIT 1";
         $propertyIDresult = $mysqli->query($propertyIDquery);
         if ($propertyIDresult->num_rows > 0) {
             $row = $propertyIDresult->fetch_assoc();
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Check if the agent exists
-        $agentIDquery = "SELECT UUID FROM agents WHERE Name = '$agentName' LIMIT 1";
+        $agentIDquery = "SELECT UUID FROM Agents WHERE Name = '$agentName' LIMIT 1";
         $agentIDresult = $mysqli->query($agentIDquery);
         if ($agentIDresult->num_rows > 0) {
             $row = $agentIDresult->fetch_assoc();
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Check if the first party exists
-        $firstPartyIDquery = "SELECT UUID FROM parties WHERE Name = '$firstParty' LIMIT 1";
+        $firstPartyIDquery = "SELECT UUID FROM Parties WHERE Name = '$firstParty' LIMIT 1";
         $firstPartyIDresult = $mysqli->query($firstPartyIDquery);
         if ($firstPartyIDresult->num_rows > 0) {
             $row = $firstPartyIDresult->fetch_assoc();
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Check if the second party exists
-        $secondPartyIDquery = "SELECT UUID FROM parties WHERE Name = '$secondParty' LIMIT 1";
+        $secondPartyIDquery = "SELECT UUID FROM Parties WHERE Name = '$secondParty' LIMIT 1";
         $secondPartyIDresult = $mysqli->query($secondPartyIDquery);
         if ($secondPartyIDresult->num_rows > 0) {
             $row = $secondPartyIDresult->fetch_assoc();
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         try {
             // Insert into transactions
-            $transactionSql = "INSERT INTO transactions (Type, StartDate, EndDate, PropertyUUID, AgentUUID)
+            $transactionSql = "INSERT INTO Transactions (Type, StartDate, EndDate, PropertyUUID, AgentUUID)
                                VALUES ('$transactionType', '$startDate', '$validatedEndDate', '$propertyUUID', '$agentUUID')";
             $mysqli->query($transactionSql);
 
@@ -157,16 +157,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $transactionUUID = $mysqli->insert_id;
 
             // Insert into transaction_party
-            $transacPartySql1 = "INSERT INTO transactionparty (TransactionUUID, PartyUUID, TypeOfTransaction)
+            $transacPartySql1 = "INSERT INTO TransactionParty (TransactionUUID, PartyUUID, TypeOfTransaction)
                                  VALUES ('$transactionUUID', '$firstPartyUUID', '$firstPartyRole')";
             $mysqli->query($transacPartySql1);
 
-            $transacPartySql2 = "INSERT INTO transactionparty (TransactionUUID, PartyUUID, TypeOfTransaction)
+            $transacPartySql2 = "INSERT INTO TransactionParty (TransactionUUID, PartyUUID, TypeOfTransaction)
                                  VALUES ('$transactionUUID', '$secondPartyUUID', '$secondPartyRole')";
             $mysqli->query($transacPartySql2);
 
             // Insert into documents
-            $documentSql = "INSERT INTO documents (DocumentType, Content, TransactionUUID)
+            $documentSql = "INSERT INTO Documents (DocumentType, Content, TransactionUUID)
                             VALUES ('$documentType', '$documentContent', '$transactionUUID')";
             $mysqli->query($documentSql);
 
@@ -214,9 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <?php 
         include('header.php');
-        // //This line would be changed to when permission is implemented (when they actually THINK about a table to store admin accounts)
-        // if ((isset($_SESSION['Nature'])) && (($_SESSION['Nature'] == 'Individual') || ($_SESSION['Nature'] == 'Organization') || ($_SESSION['Nature'] == 'Government')))
-        // {
+   
     ?>
     <!-- Navbar Start -->
     <section class="bg-half-170 d-table w-100" style="background: url('images/bg/03.jpg');">
@@ -229,13 +227,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <h4 class="heading fw-semibold mb-0 sub-heading text-white title-dark">Add transactions</h4>
                     </div>
                 </div>
-                <!--end col-->
+
             </div>
-            <!--end row-->
+
         </div>
-        <!--end container-->
+
     </section>
-    <!--end section-->
+
     <div class="position-relative">
         <div class="shape overflow-hidden text-white">
             <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,11 +252,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             your transaction with other party, without the need of commission.</p>
                     </div>
                 </div>
-                <!--end col-->
+
             </div>
-            <!--end row-->
+
         </div>
-        <!--end container-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <?php
+        $transactionType = isset($_GET['TransactionType']) ? $_GET['TransactionType'] : '';
+        $startDate = isset($_GET['startDate']) ? $_GET['startDate'] : date('Y-m-d');
+        $propertyName = isset($_GET['propertyName']) ? $_GET['propertyName'] : '';
+        $secondPartyRole = isset($_GET['SecondPartyRole']) ? $_GET['SecondPartyRole'] : '';
+       
+        
+        ?>
         <!-- Start adding -->
         <div class="container">
             <div class="row justify-content-center">
@@ -267,6 +287,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?php if (!empty($successMessage)): ?>
                         <p class="notify"><?php echo $successMessage; ?></p>
                         <?php endif; ?>
+
+
+
                         <form method="post" action="" name="propertyForm" enctype="multipart/form-data">
                             <p class="mb-0" id="error-msg"></p>
                             <div id="simple-msg"></div>
@@ -275,12 +298,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <div class="mb-3">
                                         <label class="form-label">Transaction Type <span
                                                 class="text-danger">*</span></label>
+
+
+
                                         <select name="TransactionType" id="form-transaction-type"
-                                            class="form-select form-control">
+                                            class="form-select form-control" readonly>
                                             <option value="">Select one</option>
-                                            <option value="sale">sale</option>
-                                            <option value="rental">rental</option>
-                                            <option value="lease">lease</option>
+                                            <option value="sale"
+                                                <?php echo ($transactionType == 'Buy') ? 'selected' : ''; ?>>sale
+                                            </option>
+                                            <option value="rental"
+                                                <?php echo ($transactionType == 'Rent') ? 'selected' : ''; ?>>rental
+                                            </option>
+                                            <option value="lease"
+                                                <?php echo ($transactionType == 'Lease') ? 'selected' : ''; ?>>lease
+                                            </option>
                                         </select>
                                         <span
                                             class="alert"><?php echo $formSubmitted ? ($errors['TransactionType'] ?? '') : ''; ?></span>
@@ -294,7 +326,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <div class="mb-3">
                                         <label class="form-label">Start date <span class="text-danger">*</span></label>
                                         <input name="StartDate" id="form-start-date" type="date" class="form-control"
-                                            placeholder="Property Size...">
+                                            placeholder="Property Size..."
+                                            value="<?php echo htmlspecialchars($startDate); ?>" readonly>
                                         <span
                                             class="alert"><?php echo $formSubmitted ? ($errors['StartDate'] ?? '') : ''; ?></span>
                                     </div>
@@ -317,7 +350,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <label class="form-label">Property Name <span
                                                 class="text-danger">*</span></label>
                                         <input name="PropertyName" id="form-prop-name" type="text" class="form-control"
-                                            placeholder="Name of Property...">
+                                            placeholder="Name of Property..."
+                                            value="<?php echo htmlspecialchars($propertyName); ?>" readonly>
                                         <span
                                             class="alert"><?php echo $formSubmitted ? ($errors['PropertyName'] ?? '') : ''; ?></span>
                                     </div>
@@ -351,7 +385,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <label class="form-label">Second party <span
                                                 class="text-danger">*</span></label>
                                         <input name="SecondPartyName" id="form-party-name-2" type="text"
-                                            class="form-control" placeholder="Second party name...">
+                                            class="form-control" placeholder="Second party name..."
+                                            value="<?php echo htmlspecialchars($_SESSION['Name']); ?>" readonly>
                                         <span
                                             class="alert"><?php echo $formSubmitted ? ($errors['SecondPartyName'] ?? '') : ''; ?></span>
                                     </div>
@@ -382,9 +417,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <select name="SecondPartyRole" id="form-transacparty-type-2"
                                             class="form-select form-control">
                                             <option value="">Select one</option>
-                                            <option value="Tenant">Tenant</option>
-                                            <option value="Buyer">Buyer</option>
-                                            <option value="Lessee">Lessee</option>
+                                            <option value="Tenant"
+                                            <?php echo ($secondPartyRole == 'Tenant') ? 'selected' : ''; ?>>Tenant</option>
+                                            <option value="Buyer"
+                                            <?php echo ($secondPartyRole == 'Buyer') ? 'selected' : ''; ?>>Buyer</option>
+                                            <option value="Lessee"
+                                            <?php echo ($secondPartyRole == 'Lessee') ? 'selected' : ''; ?>>Lessee</option>
                                         </select>
                                         <span
                                             class="alert"><?php echo $formSubmitted ? ($errors['SecondPartyRole'] ?? '') : ''; ?></span>
@@ -464,11 +502,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </body>
 
 </html>
-
-<?php 
-    // }
-    // else {
-    //     header("Location: index.php");
-    //     exit();
-    // }
-?>
