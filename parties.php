@@ -8,7 +8,7 @@ include('sessionConfig.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Real Estate using Bootstrap" />
-    <title>TerraTech</title>
+    <title>TerraTech - Parties</title>
     <meta name="keywords"
         content="Onepage, creative, modern, bootstrap 5, multipurpose, clean, Real Estate, buy, sell, Rent" />
     <meta name="author" content="Hallelujah" />
