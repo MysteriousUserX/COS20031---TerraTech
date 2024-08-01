@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($errors)) {
         // Check if the property exists
-        $propertyIDquery = "SELECT UUID FROM properties WHERE Name = '$propertyName' LIMIT 1";
+        $propertyIDquery = "SELECT UUID FROM Properties WHERE Name = '$propertyName' LIMIT 1";
         $propertyIDresult = $mysqli->query($propertyIDquery);
         if ($propertyIDresult->num_rows > 0) {
             $row = $propertyIDresult->fetch_assoc();
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Check if the agent exists
-        $agentIDquery = "SELECT UUID FROM agents WHERE Name = '$agentName' LIMIT 1";
+        $agentIDquery = "SELECT UUID FROM Agents WHERE Name = '$agentName' LIMIT 1";
         $agentIDresult = $mysqli->query($agentIDquery);
         if ($agentIDresult->num_rows > 0) {
             $row = $agentIDresult->fetch_assoc();
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Check if the first party exists
-        $firstPartyIDquery = "SELECT UUID FROM parties WHERE Name = '$firstParty' LIMIT 1";
+        $firstPartyIDquery = "SELECT UUID FROM Parties WHERE Name = '$firstParty' LIMIT 1";
         $firstPartyIDresult = $mysqli->query($firstPartyIDquery);
         if ($firstPartyIDresult->num_rows > 0) {
             $row = $firstPartyIDresult->fetch_assoc();
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Check if the second party exists
-        $secondPartyIDquery = "SELECT UUID FROM parties WHERE Name = '$secondParty' LIMIT 1";
+        $secondPartyIDquery = "SELECT UUID FROM Parties WHERE Name = '$secondParty' LIMIT 1";
         $secondPartyIDresult = $mysqli->query($secondPartyIDquery);
         if ($secondPartyIDresult->num_rows > 0) {
             $row = $secondPartyIDresult->fetch_assoc();
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         try {
             // Insert into transactions
-            $transactionSql = "INSERT INTO transactions (Type, StartDate, EndDate, PropertyUUID, AgentUUID)
+            $transactionSql = "INSERT INTO Transactions (Type, StartDate, EndDate, PropertyUUID, AgentUUID)
                                VALUES ('$transactionType', '$startDate', '$validatedEndDate', '$propertyUUID', '$agentUUID')";
             $mysqli->query($transactionSql);
 
@@ -162,16 +162,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $transactionUUID = $mysqli->insert_id;
 
             // Insert into transaction_party
-            $transacPartySql1 = "INSERT INTO transactionparty (TransactionUUID, PartyUUID, TypeOfTransaction)
+            $transacPartySql1 = "INSERT INTO TransactionParty (TransactionUUID, PartyUUID, TypeOfTransaction)
                                  VALUES ('$transactionUUID', '$firstPartyUUID', '$firstPartyRole')";
             $mysqli->query($transacPartySql1);
 
-            $transacPartySql2 = "INSERT INTO transactionparty (TransactionUUID, PartyUUID, TypeOfTransaction)
+            $transacPartySql2 = "INSERT INTO TransactionParty (TransactionUUID, PartyUUID, TypeOfTransaction)
                                  VALUES ('$transactionUUID', '$secondPartyUUID', '$secondPartyRole')";
             $mysqli->query($transacPartySql2);
 
             // Insert into documents
-            $documentSql = "INSERT INTO documents (DocumentType, Content, TransactionUUID)
+            $documentSql = "INSERT INTO Documents (DocumentType, Content, TransactionUUID)
                             VALUES ('$documentType', '$documentContent', '$transactionUUID')";
             $mysqli->query($documentSql);
 
