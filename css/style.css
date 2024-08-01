@@ -1,0 +1,60 @@
+
+
+#graph {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+  }
+  
+  g {
+    width: 100%;
+    height: auto;
+  }
+  
+  svg {
+    width: 100%;
+    height: fit-content;
+    border: 1px;
+  
+  }
+  
+  .button-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .graph-container{
+    width: 80%;
+    margin: 1rem auto;
+  }
+  
+  .glossary {
+      margin-top: 20px;
+  }
+  .glossary table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+  .glossary th, .glossary td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: left;
+  }
+  .color-box {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+  }
+  .circle {
+      border-radius: 50%;
+  }
+  .diamond {
+      transform: rotate(45deg);
+  }
+  .house {
+      clip-path: polygon(50% 0%, 100% 40%, 100% 100%, 0% 100%, 0% 40%);
+  }

@@ -16,6 +16,7 @@ ini_set('session.use_only_cookies', true);
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+    
 }
 
 if (!isset($_SESSION['LoginEmail'])) {

@@ -1,6 +1,7 @@
 <?php 
 include('sessionConfig.php');
-$mysqli = new mysqli('feenix-mariadb.swin.edu.au', 's104777544', '041205', 's104777544_db');
+include_once("settings.php");
+$mysqli = new mysqli($host, $user, $pwd, $sql_db);
 
 if ($mysqli->connect_error) {
     die("Connection failed: " . $conn->connect_error);

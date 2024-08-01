@@ -1,3 +1,8 @@
+<?php
+include('sessionConfig.php');
+?>
+
+
 <!doctype html>
 <html lang="en">
 
@@ -260,10 +265,14 @@
                         </div>
 
                         <div class="d-flex mt-3">
-                            <a href="javascript:void(0)" class="btn btn-primary w-100 me-2">Buy</a>
-                            <a href="javascript:void(0)" class="btn btn-primary w-100 me-2">Rent</a>
-                            <a href="javascript:void(0)" class="btn btn-primary w-100">Lease</a>
+                            <a href="formtransactions.php?TransactionType=Buy&propertyName=<?php echo urlencode($propertydata['Name']); ?>&SecondPartyRole=Buyer"
+                                class="btn btn-primary w-100 me-2">Buy</a>
+                            <a href="formtransactions.php?TransactionType=Rent&propertyName=<?php echo urlencode($propertydata['Name']); ?>&SecondPartyRole=Tenant"
+                                class="btn btn-primary w-100 me-2">Rent</a>
+                            <a href="formtransactions.php?TransactionType=Lease&propertyName=<?php echo urlencode($propertydata['Name']); ?>&SecondPartyName=<?php echo urlencode($propertydata['Name']); ?>&SecondPartyRole=Lessee"
+                                class="btn btn-primary w-100">Lease</a>
                         </div>
+
                     </div>
                 </div>
                 <!--end col-->

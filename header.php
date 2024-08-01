@@ -70,6 +70,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <a href="logout.php" class="btn btn-sm btn-icon btn-pills btn-primary " class="dropdown-item"
                     type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     <i data-feather="log-out" class="icons"> Sign out </i>
+                    
                 </a>
 
 
@@ -85,6 +86,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <li><a href="index.php" class="sub-menu-item">Home</a></li>
                 <li><a href="formtransactions.php" class="sub-menu-item">Buy</a></li>
                 <li><a href="sell.php" class="sub-menu-item">Sell</a></li>
+                <li><a href="filter.php" class="sub-menu-item">Visualization</a></li>
                 <li class="has-submenu parent-parent-menu-item">
                     <a href="javascript:void(0)">Listing</a><span class="menu-arrow"></span>
                     <ul class="submenu">

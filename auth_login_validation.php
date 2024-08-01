@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (password_verify($password, $user['Password'])) {
                 // Password is correct, set up the session
                 $_SESSION['LoginEmail'] = $user['Email'];
-              
+                $_SESSION['Name'] = $user['Name'];
 
                 // Redirect to the homepage or another page
                 header("Location: index.php");
