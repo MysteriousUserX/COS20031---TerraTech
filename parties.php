@@ -15,7 +15,7 @@ include('sessionConfig.php');
     <meta name="email" content="tdmhale5@gmail.com" />
     <meta name="version" content="1.0.0" />
     <!-- favicon -->
-    <link href="images/favicon.ico" rel="shortcut icon">
+    <link href="images/terrafavi.png" rel="shortcut icon">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <!-- Tobii -->

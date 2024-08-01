@@ -30,9 +30,9 @@
                                 <div class="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                                     <h5 class="footer-head">Quick navigation</h5>
                                     <ul class="list-unstyled footer-list mt-4">
-                                        <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right align-middle me-1"></i> Buy</a></li>
-                                        <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right align-middle me-1"></i> Sell</a></li>
-                                        <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right align-middle me-1"></i> Listing</a></li>
+                                        <li><a href="formtransactions.php" class="text-foot"><i class="mdi mdi-chevron-right align-middle me-1"></i> Buy</a></li>
+                                        <li><a href="sell.php" class="text-foot"><i class="mdi mdi-chevron-right align-middle me-1"></i> Sell</a></li>
+                                        <li><a href="list.php" class="text-foot"><i class="mdi mdi-chevron-right align-middle me-1"></i> Listing</a></li>
                                     </ul>
                                 </div><!--end col-->
             

@@ -9,7 +9,7 @@
     <meta name="keywords"
         content="Onepage, creative, modern, bootstrap 5, multipurpose, clean, Real Estate, buy, sell, Rent" />
     <!-- favicon -->
-    <link href="images/favicon.ico" rel="shortcut icon">
+    <link href="images/terrafavi.png" rel="shortcut icon">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <!--Material Icon -->

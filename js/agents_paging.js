@@ -64,7 +64,6 @@ function displayPage(page, data = agentData) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a href="#!" class="dropdown-item">View Details</a>
-                        <a href="#!" class="dropdown-item">Delete user</a>
                     </div>
                 </div>
             </td>
