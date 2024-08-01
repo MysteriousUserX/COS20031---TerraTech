@@ -199,7 +199,7 @@ function sanitize_input($data) {
                                                     <input name="TransactionKeyword" type="text"
                                                         id="transaction-name-keyword"
                                                         class="form-control bg-light border-0"
-                                                        placeholder="Search property">
+                                                        placeholder="Search property name">
                                                 </div>
                                             </div>
                                         </div>

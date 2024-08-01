@@ -10,7 +10,7 @@
     <meta name="keywords" content="creative, modern, bootstrap, multipurpose, clean, Real Estate, buy, sell, Rent" />
     <meta name="author" content="TerraTech" />
     <!-- favicon -->
-    <link href="images/favicon.ico" rel="shortcut icon">
+    <link href="images/terrafavi.png" rel="shortcut icon">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <!-- Slider -->
@@ -148,7 +148,7 @@
                                             <!--end col-->
 
                                             <div class="col-lg-3 col-md-6 col-12">
-                                                <input type="submit" id="search" name="search" style="height: 48px;"
+                                               <input type="submit" id="search" name="search" style="height: 48px;"
                                                     class="btn btn-primary searchbtn w-100" value="Search">
                                             </div>
                                             <!--end col-->
@@ -483,380 +483,110 @@
         <!--end container-->
 
         <div class="container mt-100 mt-60">
-            <div class="row justify-content-center">
-                <div class="col">
-                    <div class="section-title text-center mb-4 pb-2">
-                        <h4 class="title mb-3">Featured Properties</h4>
-                        <p class="text-muted para-desc mb-0 mx-auto">A great platform to buy, sell and rent your
-                            properties without any agent or commisions.</p>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
+                          
 
-            <div class="row g-4 mt-0">
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                        <div class="property-image position-relative overflow-hidden shadow">
-                            <img src="images/property/1.jpg" class="img-fluid" alt="">
-                            <ul class="list-unstyled property-icon">
-                                <li class=""><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera"
-                                            class="icons"></i></a></li>
-                            </ul>
+            <?php
+            require_once("settings.php");
+
+            function formatPrice($price) {
+                return number_format($price, 2); // Function to format the price
+            }
+
+            $conn = @mysqli_connect($host, $user, $pwd, $sql_db);
+            if (!$conn) {
+                echo "<p>Database connection failure</p>";
+                exit;
+            }
+
+            $sql_table_properties = "Properties";
+            $sql_table_images = "PropertyImages";
+
+            // Fetch the first 6 featured properties
+            $featured_properties_query = "
+                SELECT p.UUID, p.Address, p.Name, p.PropertyType, p.Size, p.NumberOfRooms, p.NumberOfBathrooms, 
+                    p.NumberOfFloors, p.YearBuilt, p.EstimatedValue, p.AdditionalInfo, p.DatePosted,
+                    i.ImageURL
+                FROM $sql_table_properties AS p
+                LEFT JOIN $sql_table_images AS i ON p.UUID = i.PropertyUUID
+                GROUP BY p.UUID
+                LIMIT 6
+            ";
+
+            $featured_properties_result = mysqli_query($conn, $featured_properties_query);
+            if (!$featured_properties_result) {
+                echo "<p>Failed to retrieve featured properties</p>";
+                mysqli_close($conn);
+                exit;
+            }
+
+            mysqli_close($conn);
+            ?>
+
+            <div class="container mt-100 mt-60">
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <div class="section-title text-center mb-4 pb-2">
+                            <h4 class="title mb-3">Featured Properties</h4>
+                            <p class="text-muted para-desc mb-0 mx-auto">A great platform to buy, sell, and rent your properties without any agent or commissions.</p>
                         </div>
-                        <div class="card-body content p-4">
-                            <a href="property-detail.html" class="title fs-5 text-dark fw-medium">10765 Hillshire Ave,
-                                Baton Rouge, LA 70810, USA</a>
+                    </div><!--end col-->
+                </div><!--end row-->
 
-                            <ul
-                                class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">8000sqf</span>
-                                </li>
-
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Beds</span>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Baths</span>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                                <li class="list-inline-item mb-0">
-                                    <span class="text-muted">Price</span>
-                                    <p class="fw-medium mb-0">$5000</p>
-                                </li>
-                                <li class="list-inline-item mb-0 text-muted">
-                                    <span class="text-muted">Rating</span>
-                                    <ul class="fw-medium text-warning list-unstyled mb-0">
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end items-->
-                </div>
-                <!--end col-->
-
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                        <div class="property-image position-relative overflow-hidden shadow">
-                            <img src="images/property/2.jpg" class="img-fluid" alt="">
-                            <ul class="list-unstyled property-icon">
-                                <li class=""><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera"
-                                            class="icons"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body content p-4">
-                            <a href="property-detail.html" class="title fs-5 text-dark fw-medium">59345 STONEWALL DR,
-                                Plaquemine, LA 70764, USA</a>
-                            <ul
-                                class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">8000sqf</span>
-                                </li>
-
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Beds</span>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Baths</span>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                                <li class="list-inline-item mb-0">
-                                    <span class="text-muted">Price</span>
-                                    <p class="fw-medium mb-0">$5000</p>
-                                </li>
-                                <li class="list-inline-item mb-0 text-muted">
-                                    <span class="text-muted">Rating</span>
-                                    <ul class="fw-medium text-warning list-unstyled mb-0">
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end items-->
-                </div>
-                <!--end col-->
-
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                        <div class="property-image position-relative overflow-hidden shadow">
-                            <img src="images/property/3.jpg" class="img-fluid" alt="">
-                            <ul class="list-unstyled property-icon">
-                                <li class=""><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera"
-                                            class="icons"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body content p-4">
-                            <a href="property-detail.html" class="title fs-5 text-dark fw-medium">3723 SANDBAR DR,
-                                Addis, LA 70710, USA</a>
-                            <ul
-                                class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">8000sqf</span>
-                                </li>
-
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Beds</span>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Baths</span>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                                <li class="list-inline-item mb-0">
-                                    <span class="text-muted">Price</span>
-                                    <p class="fw-medium mb-0">$5000</p>
-                                </li>
-                                <li class="list-inline-item mb-0 text-muted">
-                                    <span class="text-muted">Rating</span>
-                                    <ul class="fw-medium text-warning list-unstyled mb-0">
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end items-->
-                </div>
-                <!--end col-->
-
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                        <div class="property-image position-relative overflow-hidden shadow">
-                            <img src="images/property/4.jpg" class="img-fluid" alt="">
-                            <ul class="list-unstyled property-icon">
-                                <li class=""><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera"
-                                            class="icons"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body content p-4">
-                            <a href="property-detail.html" class="title fs-5 text-dark fw-medium">Lot 21 ROYAL OAK DR,
-                                Prairieville, LA 70769, USA</a>
-                            <ul
-                                class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">8000sqf</span>
-                                </li>
-
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Beds</span>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Baths</span>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                                <li class="list-inline-item mb-0">
-                                    <span class="text-muted">Price</span>
-                                    <p class="fw-medium mb-0">$5000</p>
-                                </li>
-                                <li class="list-inline-item mb-0 text-muted">
-                                    <span class="text-muted">Rating</span>
-                                    <ul class="fw-medium text-warning list-unstyled mb-0">
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end items-->
-                </div>
-                <!--end col-->
-
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                        <div class="property-image position-relative overflow-hidden shadow">
-                            <img src="images/property/5.jpg" class="img-fluid" alt="">
-                            <ul class="list-unstyled property-icon">
-                                <li class=""><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera"
-                                            class="icons"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body content p-4">
-                            <a href="property-detail.html" class="title fs-5 text-dark fw-medium">710 BOYD DR, Unit
-                                #1102, Baton Rouge, LA 70808, USA</a>
-                            <ul
-                                class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">8000sqf</span>
-                                </li>
-
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Beds</span>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Baths</span>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                                <li class="list-inline-item mb-0">
-                                    <span class="text-muted">Price</span>
-                                    <p class="fw-medium mb-0">$5000</p>
-                                </li>
-                                <li class="list-inline-item mb-0 text-muted">
-                                    <span class="text-muted">Rating</span>
-                                    <ul class="fw-medium text-warning list-unstyled mb-0">
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end items-->
-                </div>
-                <!--end col-->
-
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
-                        <div class="property-image position-relative overflow-hidden shadow">
-                            <img src="images/property/6.jpg" class="img-fluid" alt="">
-                            <ul class="list-unstyled property-icon">
-                                <li class=""><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart"
-                                            class="icons"></i></a></li>
-                                <li class="mt-1"><a href="javascript:void(0)"
-                                        class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera"
-                                            class="icons"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body content p-4">
-                            <a href="property-detail.html" class="title fs-5 text-dark fw-medium">5133 MCLAIN WAY, Baton
-                                Rouge, LA 70809, USA</a>
-                            <ul
-                                class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">8000sqf</span>
-                                </li>
-
-                                <li class="d-flex align-items-center me-3">
-                                    <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Beds</span>
-                                </li>
-
-                                <li class="d-flex align-items-center">
-                                    <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
-                                    <span class="text-muted">4 Baths</span>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
-                                <li class="list-inline-item mb-0">
-                                    <span class="text-muted">Price</span>
-                                    <p class="fw-medium mb-0">$5000</p>
-                                </li>
-                                <li class="list-inline-item mb-0 text-muted">
-                                    <span class="text-muted">Rating</span>
-                                    <ul class="fw-medium text-warning list-unstyled mb-0">
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0"><i class="mdi mdi-star"></i></li>
-                                        <li class="list-inline-item mb-0 text-dark">5.0(30)</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--end items-->
-                </div>
-                <!--end col-->
-
+                <div class="row g-4 mt-0">
+                    <?php while ($property = mysqli_fetch_assoc($featured_properties_result)): ?>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="card property border-0 shadow position-relative overflow-hidden rounded-3">
+                            <div class="property-image position-relative overflow-hidden shadow">
+                                <img src="<?php echo htmlspecialchars($property['ImageURL']); ?>" class="img-fluid" alt="<?php echo htmlspecialchars($property['Address']); ?>">
+                                <ul class="list-unstyled property-icon">
+                                    <li><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="home" class="icons"></i></a></li>
+                                    <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="heart" class="icons"></i></a></li>
+                                    <li class="mt-1"><a href="javascript:void(0)" class="btn btn-sm btn-icon btn-pills btn-primary"><i data-feather="camera" class="icons"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body content p-4">
+                                <a href="property-detail.php?uuid=<?php echo htmlspecialchars($property['UUID']); ?>" class="title fs-5 text-dark fw-medium"><?php echo htmlspecialchars($property['Address']); ?></a>
+                                <ul class="list-unstyled mt-3 py-3 border-top border-bottom d-flex align-items-center justify-content-between">
+                                    <li class="d-flex align-items-center me-3">
+                                        <i class="mdi mdi-arrow-expand-all fs-5 me-2 text-primary"></i>
+                                        <span class="text-muted"><?php echo htmlspecialchars($property['Size']); ?> sqf</span>
+                                    </li>
+                                    <li class="d-flex align-items-center me-3">
+                                        <i class="mdi mdi-bed fs-5 me-2 text-primary"></i>
+                                        <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfRooms']); ?> Bed</span>
+                                    </li>
+                                    <li class="d-flex align-items-center">
+                                        <i class="mdi mdi-shower fs-5 me-2 text-primary"></i>
+                                        <span class="text-muted"><?php echo htmlspecialchars($property['NumberOfBathrooms']); ?> Bath</span>
+                                    </li>
+                                </ul>
+                                <ul class="list-unstyled d-flex justify-content-between mt-2 mb-0">
+                                    <li class="list-inline-item mb-0">
+                                        <span class="text-muted">Price</span>
+                                        <p class="fw-medium mb-0">$ <?php echo formatPrice($property['EstimatedValue']); ?></p>
+                                    </li>
+                                    <li class="list-inline-item mb-0 text-muted">
+                                        <span class="text-muted">Property Type</span>
+                                        <ul class="fw-medium text-warning list-unstyled mb-0">
+                                            <li class="list-inline-item mb-0 text-dark"><?php echo htmlspecialchars($property['PropertyType']); ?></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!--end card-->
+                    </div><!--end col-->
+                    <?php endwhile; ?>
+                </div><!--end row-->
                 <div class="col-12 mt-4 pt-2">
                     <div class="text-center">
-                        <a href="grid.html" class="mt-3 fs-6 text-primary">View More Properties <i
-                                class="mdi mdi-arrow-right align-middle"></i></a>
+                        <a href="list.php" class="mt-3 fs-6 text-primary">View More Properties <i class="mdi mdi-arrow-right align-middle"></i></a>
                     </div>
                 </div>
+            </div><!--end container-->
+
+
+
+               
             </div>
             <!--end row-->
         </div>
@@ -970,7 +700,7 @@
                         </div>
 
                         <div class="content mt-3">
-                            <a href="page-team-detail.html" class="text-dark h5 mb-0 title">Nguyen Trung Thinh</a>
+                            <a href="#" class="text-dark h5 mb-0 title">Nguyen Trung Thinh</a>
                             <h6 class="text-muted mb-0 fw-normal">Broker</h6>
                         </div>
                     </div>
@@ -999,7 +729,7 @@
                         </div>
 
                         <div class="content mt-3">
-                            <a href="page-team-detail.html" class="text-dark h5 mb-0 title">Nguyen Xuan An</a>
+                            <a href="#" class="text-dark h5 mb-0 title">Nguyen Xuan An</a>
                             <h6 class="text-muted mb-0 fw-normal">Broker</h6>
                         </div>
                     </div>
@@ -1028,7 +758,7 @@
                         </div>
 
                         <div class="content mt-3">
-                            <a href="page-team-detail.html" class="text-dark h5 mb-0 title">Nguyen Pha Le</a>
+                            <a href="#" class="text-dark h5 mb-0 title">Nguyen Pha Le</a>
                             <h6 class="text-muted mb-0 fw-normal">Broker</h6>
                         </div>
                     </div>
@@ -1057,7 +787,7 @@
                         </div>
 
                         <div class="content mt-3">
-                            <a href="page-team-detail.html" class="text-dark h5 mb-0 title">Nguyen Duc Tam</a>
+                            <a href="#" class="text-dark h5 mb-0 title">Nguyen Duc Tam</a>
                             <h6 class="text-muted mb-0 fw-normal">Broker</h6>
                         </div>
                     </div>

@@ -30,10 +30,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <li class="list-inline-item ps-1 mb-0">
 
                 <div class="dropdown">
-                    <button type="button" class="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i data-feather="search" class="icons"></i>
-                    </button>
+                  
 
                     <div class="dropdown-menu dd-menu dropdown-menu-end bg-white rounded-3 border-0 mt-3 p-0"
                         style="width: 240px;">
